@@ -1,0 +1,1131 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Restaurant Details</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: url('https://res.cloudinary.com/jerrick/image/upload/d_642250b563292b35f27461a7.png,f_jpg,fl_progressive,q_auto,w_1024/6405bd4a5d4221001d8a304d.jpg') no-repeat center/cover;
+    color: white;
+    text-align: center;
+}
+
+
+.overlay {
+    background: rgba(0,0,0,0.75);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+
+.card {
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(8px);
+    padding:15px;
+    margin:10px auto;
+    width:300px;
+    border-radius:12px;
+}
+
+img {
+    width:100%;
+    border-radius:10px;
+}
+
+button {
+    padding:10px 20px;
+    margin:10px;
+    border:none;
+    border-radius:8px;
+    background:#ff9800;
+    color:white;
+    cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="overlay">
+<button onclick="goBack()">⬅ Back to Restaurants</button>
+
+<h1 id="resName"></h1>
+
+<div class="card" id="reviews"></div>
+
+<h2>🍛 Popular Dishes</h2>
+<div id="popular"></div>
+
+<h2>📋 Menu</h2>
+<div class="card" id="menu"></div>
+
+<button id="moreBtn">View More</button>
+
+</div>
+
+<script>
+
+const restaurants = {
+  
+
+ // 🔴 ARIYALUR
+  "Ariyalur Mess": {
+    reviews: "4.2 ⭐ Local meals special",
+    popular: [
+      {name:"Meals", img:"https://static.vecteezy.com/system/resources/thumbnails/068/494/726/small/traditional-indian-thali-meal-served-on-banana-leaf-displaying-culinary-delights-photo.jpg"},
+      {name:"Chicken Curry", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRoZ5W-35XkYg4k-G8V_HJ9UvZ3Ew774xnfyQ&s"}
+    ],
+    menu:["Meals","Chicken","Egg Fry"]
+  },
+  "Hotel Annapoorna Ariyalur": {
+    reviews:"4.3 ⭐ Veg family restaurant",
+    popular:[
+      {name:"Dosa", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYH7H-KRy-dnN9To-d5TJu7dKpY3f_nr0w3Q&s"},
+      {name:"Meals", img:"https://thumbs.dreamstime.com/b/authentic-kerala-meals-thali-traditional-south-indian-platter-served-banana-leaf-featuring-steamed-rice-papadam-366131538.jpg"}
+    ],
+    menu:["Dosa","Meals","Chapati"]
+  },
+  "New Arya Bhavan Ariyalur": {
+    reviews:"3.9 ⭐ Budget hotel",
+    popular:[
+      {name:"Idli", img:"https://artofpalate.com/wp-content/uploads/2016/08/idli-with-rice-flour.jpg"},
+      {name:"Pongal", img:"https://www.indianhealthyrecipes.com/wp-content/uploads/2021/01/sweet-pongal-chakkara-pongal-500x500.jpg"}
+    ],
+    menu:["Idli","Pongal","Vada"]
+  },
+
+  // 🔴 CHENGALPATTU
+  "Sangeetha Veg Chengalpattu": {
+    reviews:"4.5 ⭐ Pure veg famous",
+    popular:[
+      {name:"Mini Tiffin", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsgxvMwyIUIsHUiJLYOgd1ZjkRfPoWrrQ0tg&s"},
+      {name:"Dosa", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRx-glTW9VpM8O7nW1los6X5F9VkIOaj07rgw&s"}
+    ],
+    menu:["Meals","Dosa","Idli"]
+  },
+  "Hotel Crescent Chengalpattu": {
+    reviews:"4.2 ⭐ Multi cuisine",
+    popular:[
+      {name:"Biryani", img:"https://www.shutterstock.com/image-photo/traditional-chicken-biryani-served-brass-600nw-2622739739.jpg"},
+      {name:"Chicken Fry", img:"https://www.licious.in/blog/wp-content/uploads/2022/05/shutterstock_1587847900.jpg"}
+    ],
+    menu:["Biryani","Chicken","Grill"]
+  },
+  "Anjappar Chengalpattu": {
+    reviews:"4.6 ⭐ Chettinad taste",
+    popular:[
+      {name:"Chicken Chettinad", img:"https://www.whiskaffair.com/wp-content/uploads/2020/09/Chicken-Chettinad-Curry-2-3.jpg"},
+      {name:"Mutton Sukka", img:"https://foodieadamandcookieeve.wordpress.com/wp-content/uploads/2015/03/mutton-chukka-2-of-11.jpg"}
+    ],
+    menu:["Chicken","Mutton","Biryani"]
+  },
+
+  // 🔴 CHENNAI
+  "Anjappar Chennai": {
+    reviews:"4.7 ⭐ Famous chain",
+    popular:[
+      {name:"Chicken Chettinad", img:"https://www.whiskaffair.com/wp-content/uploads/2020/09/Chicken-Chettinad-Curry-2-3.jpg"},
+      {name:"Pepper Chicken", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdeF5nxB14tLn19vf_aEVSpG-V5PNpSlTG5A&s"}
+    ],
+    menu:["Chicken","Mutton","Meals"]
+  },
+  "Murugan Idli Chennai": {
+    reviews:"4.8 ⭐ Iconic idli",
+    popular:[
+      {name:"Idli", img:"https://artofpalate.com/wp-content/uploads/2016/08/idli-with-rice-flour.jpg"},
+      {name:"Podi Dosa", img:"https://as1.ftcdn.net/jpg/05/58/91/54/1000_F_558915494_ppKrAnrZLd2MWhOGIu6g7lPniuxTbMPR.jpg"}
+    ],
+    menu:["Idli","Dosa","Pongal"]
+  },
+  "SS Hyderabad Biryani Chennai": {
+    reviews:"4.4 ⭐ Biryani spot",
+    popular:[
+      {name:"Chicken Biryani", img:"https://www.cubesnjuliennes.com/wp-content/uploads/2020/07/Chicken-Biryani-Recipe.jpg"},
+      {name:"Mutton Biryani", img:"https://www.cubesnjuliennes.com/wp-content/uploads/2021/03/Best-Mutton-Biryani-Recipe.jpg"}
+    ],
+    menu:["Biryani","Grill","Rice"]
+  },
+
+  // 🔴 COIMBATORE
+  "Junior Kuppanna Coimbatore": {
+    reviews:"4.7 ⭐ Kongu cuisine",
+    popular:[
+      {name:"Mutton Chukka", img:"https://foodieadamandcookieeve.wordpress.com/wp-content/uploads/2015/03/mutton-chukka-2-of-11.jpg"},
+      {name:"Biryani", img:"https://www.shutterstock.com/image-photo/traditional-chicken-biryani-served-brass-600nw-2622739739.jpg"}
+    ],
+    menu:["Mutton","Chicken","Meals"]
+  },
+  "Annapoorna Coimbatore": {
+    reviews:"4.8 ⭐ Top veg",
+    popular:[
+      {name:"Meals", img:"https://thumbs.dreamstime.com/b/authentic-kerala-meals-thali-traditional-south-indian-platter-served-banana-leaf-featuring-steamed-rice-papadam-366131538.jpg"},
+      {name:"Dosa", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRx-glTW9VpM8O7nW1los6X5F9VkIOaj07rgw&s"}
+    ],
+    menu:["Meals","Dosa","Sweets"]
+  },
+  "Haribhavanam Coimbatore": {
+    reviews:"4.6 ⭐ Premium dining",
+    popular:[
+      {name:"Grill Chicken", img:"https://spiceindiaonline.com/wp-content/uploads/2021/05/Tandoori-Chicken-20.jpg"},
+      {name:"Fried Rice", img:"https://www.tilda.com/en-in/wp-content/uploads/sites/21/2021/05/chicken-fried-rice-low-res-2.png"}
+    ],
+    menu:["Grill","Rice","Noodles"]
+  },
+
+  // 🔴 CUDDALORE
+  "Hotel Aishwarya Cuddalore": {
+    reviews:"4.2 ⭐ Family restaurant",
+    popular:[
+      {name:"Meals", img:"https://thumbs.dreamstime.com/b/authentic-kerala-meals-thali-traditional-south-indian-platter-served-banana-leaf-featuring-steamed-rice-papadam-366131538.jpg"},
+      {name:"Chicken Fry", img:"https://gingerskillet.com/wp-content/uploads/2023/09/keralachickenfry_F.jpg"}
+    ],
+    menu:["Meals","Chicken","Fish"]
+  },
+  "Sree Annapoorna Cuddalore": {
+    reviews:"4.3 ⭐ Veg hotel",
+    popular:[
+      {name:"Dosa", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRx-glTW9VpM8O7nW1los6X5F9VkIOaj07rgw&s"},
+      {name:"Meals", img:"https://thumbs.dreamstime.com/b/authentic-kerala-meals-thali-traditional-south-indian-platter-served-banana-leaf-featuring-steamed-rice-papadam-366131538.jpg"}
+    ],
+    menu:["Dosa","Meals","Tiffin"]
+  },
+  "New Krishna Bhavan Cuddalore": {
+    reviews:"4.0 ⭐ Budget veg",
+    popular:[
+      {name:"Idli", img:"https://artofpalate.com/wp-content/uploads/2016/08/idli-with-rice-flour.jpg"},
+      {name:"Vada", img:"https://images.moneycontrol.com/static-mcnews/2026/01/20260102051738_medu-vada.jpg?impolicy=website&width=770&height=431"}
+    ],
+    menu:["Idli","Vada","Meals"]
+  },
+
+  // 🔴 DHARMAPURI
+  "Hotel Gowri Krishna Dharmapuri": {
+    reviews:"4.3 ⭐ Popular hotel",
+    popular:[
+      {name:"Meals", img:"https://thumbs.dreamstime.com/b/authentic-kerala-meals-thali-traditional-south-indian-platter-served-banana-leaf-featuring-steamed-rice-papadam-366131538.jpg"},
+      {name:"Chicken Curry", img:"https://untoldrecipesbynosheen.com/wp-content/uploads/2022/02/chicken-salan-featured-1.jpg"}
+    ],
+    menu:["Meals","Chicken","Egg"]
+  },
+  "Saravana Bhavan Dharmapuri": {
+    reviews:"4.4 ⭐ Veg chain",
+    popular:[
+      {name:"Dosa", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRx-glTW9VpM8O7nW1los6X5F9VkIOaj07rgw&s"},
+      {name:"Mini Meals", img:"https://images.picxy.com/cache/2021/12/23/cc2bb5249c7e4933575439311a1c2a20.jpg"}
+    ],
+    menu:["Dosa","Meals","Sweets"]
+  },
+  "A2B Dharmapuri": {
+    reviews:"4.5 ⭐ Adyar Ananda Bhavan",
+    popular:[
+      {name:"North Meals", img:"https://www.subbuskitchen.com/wp-content/uploads/2014/07/NorthIndian-Lunch-Menu1_Final2.jpg"},
+      {name:"Chaat", img:"https://assets.epicurious.com/photos/60f09a34ae9cc866a51a25d0/1:1/w_2560%2Cc_limit/ChickpeaPotatoChaat_RECIPE_071321_19121.jpg"}
+    ],
+    menu:["Meals","Chaat","Sweets"]
+  },
+
+  // 🔴 DINDIGUL
+  "Thalappakatti Dindigul": {
+    reviews:"5 ⭐ Legendary biryani",
+    popular:[
+      {name:"Dindigul Biryani", img:"https://instamart-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_960,w_960//InstamartAssets/2/Dindigul_Biryani.webp?updatedAt=1730794239017"},
+      {name:"Chicken 65", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxLUylpXSB7u85LFAYqTeMTc1SBAuH-YKJ_Q&s"}
+    ],
+    menu:["Biryani","Chicken","Mutton"]
+  },
+  "Ponram Dindigul": {
+    reviews:"4.3 ⭐ Local mess",
+    popular:[
+      {name:"Meals", img:"https://dynamic-media-cdn.tripadvisor.com/media/photo-o/07/d3/76/09/rassam.jpg?w=900&h=500&s=1"},
+      {name:"Fish Fry", img:"https://t3.ftcdn.net/jpg/11/70/50/60/360_F_1170506067_Q3yuOnvKCH4obRLgyVFJ8QXAALS9uCV4.jpg"}
+    ],
+    menu:["Meals","Fish","Chicken"]
+  },
+  "Sree Baalaaji Bhavan Dindigul": {
+    reviews:"4.1 ⭐ Veg spot",
+    popular:[
+      {name:"Idli", img:"https://artofpalate.com/wp-content/uploads/2016/08/idli-with-rice-flour.jpg"},
+      {name:"Poori", img:"https://www.indianhealthyrecipes.com/wp-content/uploads/2020/12/poori-puri-recipe.jpg"}
+    ],
+    menu:["Tiffin","Meals"]
+  },
+
+  // 🔴 ERODE
+  "Sakthi Mess Erode": {
+    reviews:"4.7 ⭐ Famous non-veg",
+    popular:[
+      {name:"Mutton Curry", img:"https://static.toiimg.com/photo/63201465.cms"},
+      {name:"Non-Veg Meals", img:"https://content.jdmagicbox.com/v2/comp/vellore/z3/9999px416.x416.230306225307.g4z3/catalogue/ussoor-king-biryani-ussoor-vellore-restaurants-deng9knddp-250.jpg"}
+    ],
+    menu:["Meals","Mutton","Chicken"]
+  },
+  "Annapoorna Erode": {
+    reviews:"4.5 ⭐ Veg restaurant",
+    popular:[
+      {name:"Dosa", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRx-glTW9VpM8O7nW1los6X5F9VkIOaj07rgw&s"},
+      {name:"Meals", img:"https://dynamic-media-cdn.tripadvisor.com/media/photo-o/07/d3/76/09/rassam.jpg?w=900&h=500&s=1"}
+    ],
+    menu:["Meals","Dosa","Tiffin"]
+  },
+  "Hotel Aishwarya Erode": {
+    reviews:"4.3 ⭐ Family dining",
+    popular:[
+      {name:"Chicken Fry", img:"https://i.ytimg.com/vi/GfJn88tOmIM/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLBCpNsOzmEu0I9B50n_xCbtDXezDg"},
+      {name:"Rice", img:"https://www.indianhealthyrecipes.com/wp-content/uploads/2020/12/fried-rice.jpg"}
+    ],
+    menu:["Chicken","Rice","Meals"]
+  },
+
+  // 🔴 KALLAKURICHI
+  "Sri Krishna Bhavan Kallakurichi": {
+    reviews:"4.2 ⭐ Veg hotel",
+    popular:[
+      {name:"Idli", img:"https://artofpalate.com/wp-content/uploads/2016/08/idli-with-rice-flour.jpg"},
+      {name:"Meals", img:"https://thumbs.dreamstime.com/b/authentic-kerala-meals-thali-traditional-south-indian-platter-served-banana-leaf-featuring-steamed-rice-papadam-366131538.jpg"}
+    ],
+    menu:["Idli","Meals","Dosa"]
+  },
+  "Hotel Aryaas Kallakurichi": {
+    reviews:"4.4 ⭐ Popular",
+    popular:[
+      {name:"Dosa", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRx-glTW9VpM8O7nW1los6X5F9VkIOaj07rgw&s"},
+      {name:"Meals", img:"https://thumbs.dreamstime.com/b/authentic-kerala-meals-thali-traditional-south-indian-platter-served-banana-leaf-featuring-steamed-rice-papadam-366131538.jpg"}
+    ],
+    menu:["Dosa","Meals"]
+  },
+  "New Saravana Kallakurichi": {
+    reviews:"4.1 ⭐ Budget",
+    popular:[
+      {name:"Pongal", img:"https://www.indianhealthyrecipes.com/wp-content/uploads/2021/01/sweet-pongal-chakkara-pongal-500x500.jpg"},
+      {name:"Vada", img:"https://images.moneycontrol.com/static-mcnews/2026/01/20260102051738_medu-vada.jpg?impolicy=website&width=770&height=431"}
+    ],
+    menu:["Tiffin","Meals"]
+  },
+
+  // 🔴 KANCHEEPURAM
+  "Sri Saravana Bhavan Kancheepuram": {
+    reviews:"4.5 ⭐ Classic veg",
+    popular:[
+      {name:"Meals", img:"https://thumbs.dreamstime.com/b/authentic-kerala-meals-thali-traditional-south-indian-platter-served-banana-leaf-featuring-steamed-rice-papadam-366131538.jpg"},
+      {name:"Dosa", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRx-glTW9VpM8O7nW1los6X5F9VkIOaj07rgw&s"}
+    ],
+    menu:["Meals","Dosa"]
+  },
+  "Sangeetha Kancheepuram": {
+    reviews:"4.6 ⭐ Popular chain",
+    popular:[
+      {name:"Mini Tiffin", img:"https://c.ndtvimg.com/2025-03/odu6bss_south-indian-food_625x300_04_March_25.jpg?im=FaceCrop,algorithm=dnn,width=384,height=384"},
+      {name:"Meals", img:"https://thumbs.dreamstime.com/b/authentic-kerala-meals-thali-traditional-south-indian-platter-served-banana-leaf-featuring-steamed-rice-papadam-366131538.jpg"}
+    ],
+    menu:["Meals","Tiffin"]
+  },
+  "Hotel Baboo Kancheepuram": {
+    reviews:"4.2 ⭐ Family hotel",
+    popular:[
+      {name:"Chicken Curry", img:"https://www.spicekitchenuk.com/cdn/shop/articles/Chicken-Tikka-768x1024.jpg?crop=center&height=610&v=1619781298&width=610"},
+      {name:"Meals", img:"https://rakskitchen.net/wp-content/uploads/2013/08/9634876480_20d7ac8196_o.jpg"}
+    ],
+    menu:["Meals","Chicken"]
+  },
+  // 🔴 KANYAKUMARI
+"The curry Kaniya kumari": {
+  reviews:"4.3 ⭐ Popular dining",
+  popular:[
+    {name:"Japan Chicken", img:"https://japan.recipetineats.com/wp-content/uploads/2022/02/Karaage_Chicken_7349sq.jpg"},
+    {name:"Egg Biryani", img:"https://spicecravings.com/wp-content/uploads/2020/10/Egg-Biryani-Featured-1.jpg"}
+  ],
+  menu:["Chicken","Prawn 65","Biryani"]
+},
+ "Zam zam Kaniya kumari": {
+  reviews:"4.4 ⭐ Family restaurant",
+  popular:[
+    {name:"Chicken Tandoori", img:"https://www.tamingtwins.com/wp-content/uploads/2024/07/tandoor-chicken-10.jpg"},
+    {name:"Oreo Shake", img:"https://mealswithsisters.com/wp-content/uploads/2025/08/homemade-Oreo-Milkshake-Recipe-500x500.jpg"}
+  ],
+  menu:["Tandoori","Shake","Juice"]
+},
+"Sea view Kanya kumari": {
+ reviews:"4.3 ⭐ Sea food special",
+ popular:[
+    {name:"South Indian Thali", img:"https://static.vecteezy.com/system/resources/previews/043/122/631/large_2x/south-indian-fish-meal-thali-tikka-masala-curry-rice-raita-korma-kesari-halwa-and-chapati-served-in-dish-isolated-on-wooden-table-top-view-of-indian-spicy-food-photo.jpg"},
+    {name:"Seafood Platter", img:"https://media-cdn.tripadvisor.com/media/photo-m/1280/1c/97/69/26/fort-kochi-seafood-restaurant.jpg"}
+  ],
+  menu:["Thali","Seafood","Chicken"]
+},
+
+  // 🔴 KARUR
+  "Hotel Hemala Karur": {
+    reviews:"4.4 ⭐ Premium hotel",
+    popular:[
+      {name:"Meals", img:"https://thumbs.dreamstime.com/b/authentic-kerala-meals-thali-traditional-south-indian-platter-served-banana-leaf-featuring-steamed-rice-papadam-366131538.jpg"},
+      {name:"Chicken Fry", img:"https://i.ytimg.com/vi/GfJn88tOmIM/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLBCpNsOzmEu0I9B50n_xCbtDXezDg"}
+    ],
+    menu:["Meals","Chicken"]
+  },
+  "Sree Annapoorna Karur": {
+    reviews:"4.5 ⭐ Veg",
+    popular:[
+      {name:"Dosa", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRx-glTW9VpM8O7nW1los6X5F9VkIOaj07rgw&s"},
+      {name:"Meals", img:"https://static.vecteezy.com/system/resources/thumbnails/068/494/726/small/traditional-indian-thali-meal-served-on-banana-leaf-displaying-culinary-delights-photo.jpg"}
+    ],
+    menu:["Meals","Dosa"]
+  },
+  "A2B Karur": {
+    reviews:"4.6 ⭐ Chain hotel",
+    popular:[
+      {name:"Chaat", img:"https://assets.epicurious.com/photos/60f09a34ae9cc866a51a25d0/1:1/w_2560%2Cc_limit/ChickpeaPotatoChaat_RECIPE_071321_19121.jpg"},
+      {name:"Meals", img:"https://static.vecteezy.com/system/resources/thumbnails/068/494/726/small/traditional-indian-thali-meal-served-on-banana-leaf-displaying-culinary-delights-photo.jpg"}
+    ],
+    menu:["Meals","Chaat"]
+  },
+
+  // 🔴 KRISHNAGIRI
+  "Hotel Sree Saravana Krishnagiri": {
+    reviews:"4.3 ⭐ Popular veg",
+    popular:[
+      {name:"Idli", img:"https://artofpalate.com/wp-content/uploads/2016/08/idli-with-rice-flour.jpg"},
+      {name:"Dosa", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRx-glTW9VpM8O7nW1los6X5F9VkIOaj07rgw&s"}
+    ],
+    menu:["Tiffin","Meals"]
+  },
+  "A2B Krishnagiri": {
+    reviews:"4.5 ⭐ Famous chain",
+    popular:[
+      {name:"Meals", img:"https://static.vecteezy.com/system/resources/thumbnails/068/494/726/small/traditional-indian-thali-meal-served-on-banana-leaf-displaying-culinary-delights-photo.jpg"},
+      {name:"Sweets", img:"https://i.pinimg.com/736x/1a/76/49/1a7649c7998f1042aa19fffadff99813.jpg"}
+    ],
+    menu:["Meals","Sweets"]
+  },
+  "Hotel Gowri Krishnagiri": {
+    reviews:"4.2 ⭐ Family restaurant",
+    popular:[
+      {name:"Chicken Curry", img:"https://untoldrecipesbynosheen.com/wp-content/uploads/2022/02/chicken-salan-featured-1.jpg"},
+      {name:"Meals", img:"https://images.jdmagicbox.com/v2/comp/bangalore/l6/080pxx80.xx80.220405230905.v4l6/catalogue/madras-meal-company-marathahalli-bangalore-restaurants-hw726q8u7i.jpg"}
+    ],
+    menu:["Meals","Chicken"]
+  },
+// 🔴 MADURAI
+"Melting pot Madurai": {
+  reviews:"4.9 ⭐ Premium dining",
+  popular:[
+    {name:"Jigarthanda", img:"https://sahasa.in/wp-content/uploads/2021/04/jigarthanda-madurai.jpg?w=640"},
+    {name:"Dessert", img:"https://c.ndtvimg.com/2020-04/chd4rs3g_dessert_625x300_07_April_20.jpg"}
+  ],
+  menu:["Salad","Soup","Dessert"]
+},
+"The muniches Madurai": {
+  reviews:"4.6 ⭐ Cafe special",
+  popular:[
+    {name:"Pasta Combo", img:"https://yufoodsco.com/cdn/shop/products/Image22_800x.png?v=1668075030"},
+    {name:"Hot Chocolate", img:"https://ichef.bbci.co.uk/food/ic/food_16x9_1600/recipes/hot_chocolate_78843_16x9.jpg"}
+  ],
+  menu:["Pasta","Chinese","Chocolate"]
+},
+"Amma mess Madurai": {
+  reviews:"4.1 ⭐ Traditional mess",
+  popular:[
+    {name:"Kari Dosai", img:"https://images.squarespace-cdn.com/content/v1/5ef7016c964fab1126b8f1a2/be32a4b7-66e5-44cf-b1a3-172a3219790f/Screen+Shot+2021-12-11+at+8.38.59+PM.png"},
+    {name:"Mutton Kola Urundai", img:"https://melam.com/wp-content/uploads/2022/12/madurai-mutton-kolai-urundai.jpg"}
+  ],
+  menu:["Dosai","Mutton","Crab"]
+},
+// 🔴 MAYILADUTHURAI
+"Vasan's parambariya Mayiladuthurai": {
+  reviews:"4.7 ⭐ Sweet special",
+  popular:[
+    {name:"Chocolate Milkshake", img:"https://images.unsplash.com/photo-1577805947697-89e18249d767"},
+    {name:"Halwa", img:"https://5.imimg.com/data5/ANDROID/Default/2021/4/RO/EU/UK/66301162/prod-20210412-235353971899798281958864-jpg.jpg"}
+  ],
+  menu:["Milkshake","Pudding","Mojito"]
+},
+"Annamithra Mayiladuthurai": {
+  reviews:"4.5 ⭐ Veg restaurant",
+  popular:[
+    {name:"Paper Roast Dosa", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR8FsRAHRuiWnnqHj3fUPCIvszWYbgf956-6w&s"},
+    {name:"Coffee", img:"https://images.unsplash.com/photo-1495474472287-4d71bcdd2085"}
+  ],
+  menu:["Dosa","Idly","Coffee"]
+},
+"Grand Inn Mayiladuthurai": {
+  reviews:"4.3 ⭐ Family dining",
+  popular:[
+    {name:"Chicken Fried Rice", img:"https://images.unsplash.com/photo-1603133872878-684f208fb84b"},
+    {name:"Chicken Pizza", img:"https://theartisticcook.com/wp-content/uploads/2025/03/Chicken-Pizza.jpg"}
+  ],
+  menu:["Rice","Pizza","Juice"]
+},
+// 🔴 NAGAPATTINAM
+"Star Nagapattinam": {
+  reviews:"4.3 ⭐ Popular non-veg",
+  popular:[
+    {name:"Chilli Parotta", img:"https://i.ytimg.com/vi/Sn2Twa3CMTU/maxresdefault.jpg"},
+    {name:"Chicken 65", img:"https://146554676.cdn6.editmysite.com/uploads/1/4/6/5/146554676/276AGHCHXLRUG7TBD7Q7L7D4.jpeg"}
+  ],
+  menu:["Parotta","Chicken","Grill"]
+},
+"Grand chettinadu Nagapattinam": {
+  reviews:"4.2 ⭐ Chettinad special",
+  popular:[
+    {name:"Sweet Corn Masala", img:"https://moonrice.net/wp-content/uploads/2024/04/MasalaCornOnCob-8.jpg"},
+    {name:"Chilli Fish", img:"https://deccanbawarchi.com/wp-content/uploads/2023/07/Chilli-Fish-1024x576.jpg"}
+  ],
+  menu:["Sweets","Fish","Masala"]
+},
+"Anifa briyani Nagapattinam": {
+  reviews:"4.2 ⭐ Biryani spot",
+  popular:[
+    {name:"Pista Ice Cream", img:"https://www.keep-calm-and-eat-ice-cream.com/wp-content/uploads/2022/09/Pistachio-ice-cream-hero-06.jpg"},
+    {name:"Paneer 65", img:"https://rakskitchen.net/wp-content/uploads/2016/11/how-to-make-paneer-65.jpg"}
+  ],
+  menu:["Ice Cream","Paneer","Sandwich"]
+},
+// 🔴 NAMAKKAL
+"Tempt Multicuisine restaurant Namakkal": {
+  reviews:"4.6 ⭐ Multicuisine",
+  popular:[
+    {name:"Butter Naan", img:"https://maayeka.com/wp-content/uploads/2025/10/butter-naan-tawa-naan-1-of-1.jpg"},
+    {name:"Sizzling Brownie", img:"https://images.unsplash.com/photo-1606313564200-e75d5e30476c"}
+  ],
+  menu:["Naan","Chicken","Brownie"]
+},
+"Barbe queen restaurant Namakkal": {
+  reviews:"4.7 ⭐ BBQ special",
+  popular:[
+    {name:"Chicken Kebab", img:"https://khinskitchen.com/wp-content/uploads/2024/03/chicken-kebab-04.jpg"},
+    {name:"Bread Halwa", img:"https://www.a2zshoppy.com/uploads/media/2025/breadhalwa_a2z_shoppy.jpg"}
+  ],
+  menu:["BBQ","Fish","Kebab"]
+},
+"Table tree family restaurant Namakkal": {
+  reviews:"4.1 ⭐ Family restaurant",
+  popular:[
+    {name:"Nattu Kozhi Soup", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1EeHqP-6tFD46_cmRFUXVgMcIOTIn6TuMQQ&s"},
+    {name:"Snacks", img:"https://www.yummyfoodrecipes.com/resources/picture/org/Crunchy-Golden-Fried-Baby.jpg"}
+  ],
+  menu:["Snacks","Juice","Soup"]
+},
+
+// 🔴 NILGIRIS
+"A2A Nilgiris": {
+  reviews:"4.5 ⭐ Hill food",
+  popular:[
+    {name:"Schezwan Fried Rice", img:"https://www.whiskaffair.com/wp-content/uploads/2020/09/Schezwan-Fried-Rice-2-3-500x500.jpg"},
+    {name:"Chilli Veg Balls", img:"https://i.ytimg.com/vi/lh-bSKpM6nA/maxresdefault.jpg"}
+  ],
+  menu:["Fish","Rice","Veg"]
+},
+"Blomming garden cafe Nilgiris": {
+  reviews:"4.7 ⭐ Cafe view",
+  popular:[
+    {name:"Burger", img:"https://www.seriouseats.com/thmb/pUE9Dw4RjWKEG4JED7whaHoIzNg=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/20250523-SEA-ThickandJuicyCheeseburgers-LorenaMasso-HERO-68563a45a4184a0e82c5a8b9f68a719d.jpg"},
+    {name:"Spring Roll", img:"https://d1mxd7n691o8sz.cloudfront.net/static/recipe/recipe/2023-12/Vegetable-Spring-Rolls-2-1-906001560ca545c8bc72baf473f230b4.jpg"}
+  ],
+  menu:["Burger","Soup","Seafood"]
+},
+"Nilgiri express Nilgiris": {
+  reviews:"4.8 ⭐ Breakfast special",
+  popular:[
+    {name:"Pancakes", img:"https://images.unsplash.com/photo-1528207776546-365bb710ee93"},
+    {name:"French Fries", img:"https://images.unsplash.com/photo-1576107232684-1279f390859f"}
+  ],
+  menu:["Pancakes","Idly","Vada"]
+},
+// 🔴 PERAMBALUR
+"Ishtaa restaurant Perambalur": {
+  reviews:"4.4 ⭐ Cafe special",
+  popular:[
+    {name:"Mushroom Pizza", img:"https://images.unsplash.com/photo-1565299624946-b28f40a0ae38"},
+    {name:"Fruit Falooda", img:"https://preview.redd.it/heavenly-fresh-fruits-with-tapioca-falooda-ice-cream-v0-ej97g8atz4t51.jpg?width=640&crop=smart&auto=webp&s=66ea3b415063f49b2a283d6ed390999bfecec911"}
+  ],
+  menu:["Pizza","Falooda","Soup"]
+},
+"Kooraikadai jayaraman mess Perambalur": {
+  reviews:"4.5 ⭐ Mess special",
+  popular:[
+    {name:"Chicken Curry", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRc4SjCxEyYPycFXnmpKluw9QWphjqLNrIPaQ&s"},
+    {name:"Mutton Biryani", img:"https://static.vecteezy.com/system/resources/previews/069/360/975/large_2x/mutton-biryani-rice-cooked-with-mutton-meat-and-spices-free-photo.jpg"}
+  ],
+  menu:["Chicken","Mutton","Ice Cream"]
+},
+"Aswins restaurant Perambalur": {
+  reviews:"4.3 ⭐ Veg meals",
+  popular:[
+    {name:"Sukku Coffee", img:"https://m.media-amazon.com/images/I/81wRDw6f9SL.jpg"},
+    {name:"Mini Meals", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSjCFGAwMRhr7F5PUOgnOCpyR-BoLNXQ4hbhw&s"}
+  ],
+  menu:["Coffee","Meals","Veg"]
+},
+// 🔴 PUDUKKOTTAI
+"Koodoo Family Pudukkottai": {
+  reviews: "4.4 ⭐ Family dining",
+  popular: [
+    { name: "Chicken Fried Rice", img: "https://i.pinimg.com/564x/41/91/64/419164c67b2a398989575fec77e234b8.jpg" },
+    { name: "Butter Chicken", img: "https://www.licious.in/blog/wp-content/uploads/2020/10/butter-chicken--600x600.jpg" }
+  ],
+  menu: ["Fried Rice", "Chicken", "Parotta"]
+},
+
+"Hayatti Briyani Pudukkottai": {
+  reviews: "4.5 ⭐ Briyani special",
+  popular: [
+    { name: "Mutton Briyani", img: "https://www.licious.in/blog/wp-content/uploads/2022/06/mutton-hyderabadi-biryani-01.jpg" },
+    { name: "Chicken 65", img: "https://www.teaforturmeric.com/wp-content/uploads/2024/05/Chicken-65-11-500x500.jpg" }
+  ],
+  menu: ["Briyani", "Chicken", "Gravy"]
+},
+
+"Palaniappa Mess Pudukkottai": {
+  reviews: "4.3 ⭐ Traditional meals",
+  popular: [
+    { name: "Chicken Parrota", img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvPmIr54TIfH7w-YjoNkr1fKlWTgIMWvhifg&s" },
+    { name: "Fish Curry", img: "https://vismaifood.com/storage/app/uploads/public/daa/96d/7bc/thumb__1200_0_0_0_auto.jpg" }
+  ],
+  menu: ["Meals", "Fish", "Egg"]
+},
+// 🔴 RAMANATHAPURAM
+"Zaitoon restaurant Ramanathapuram": {
+  reviews:"4.8 ⭐ Premium restaurant",
+  popular:[
+    {name:"Mushroom Soup", img:"https://aubreyskitchen.com/wp-content/uploads/2020/07/healthy-mushroom-soup-in-white-bowl-next-to-bread.jpg"},
+    {name:"Chicken Paratha", img:"https://bakewithzoha.com/wp-content/uploads/2024/03/chicken-tikka-paratha-rolls-featured.jpg"}
+  ],
+  menu:["Soup","Chicken","Biryani"]
+},
+"Jade room veg restaurant Ramanathapuram": {
+  reviews:"4.6 ⭐ South Indian",
+  popular:[
+    {name:"Idiyappam", img:"https://upload.wikimedia.org/wikipedia/commons/8/8a/Idiyappam_with_Egg_Masala_Curry.jpg"},
+    {name:"Pongal", img:"https://static.toiimg.com/thumb/61051454.cms?imgsize=1180189&width=800&height=800"}
+  ],
+  menu:["Idiyappam","Pongal","Meals"]
+},
+"Bheemas nalabagam Ramanathapuram": {
+  reviews:"4.4 ⭐ Veg special",
+  popular:[
+    {name:"Poori Masala", img:"https://tastyappetite.net/static/8abfcca36adbaf4968e042e0122030a7/14b42/e6782fbbdaeea9773e939265d17d14ef.jpg"},
+    {name:"Veg Noodles", img:"https://vismaifood.com/storage/app/uploads/public/92f/d60/bf6/thumb__1200_0_0_0_auto.jpg"}
+  ],
+  menu:["Poori","Noodles","Masala"]
+},
+// 🔴 RANIPET
+"Ranipet Zamindars family": {
+  reviews:"4.3 ⭐ BBQ special",
+  popular:[
+    {name:"BBQ Chicken", img:"https://res.cloudinary.com/hksqkdlah/image/upload/c_fill,dpr_2.0,f_auto,fl_lossy.progressive.strip_profile,g_faces:auto,q_auto:low/SFS_Oven-Roasted-BBQ-Chicken_517_qwhqeq"},
+    {name:"Veg Biryani", img:"https://www.indianveggiedelight.com/wp-content/uploads/2020/04/veg-biryani-instant-pot.jpg"}
+  ],
+  menu:["BBQ","Soup","Biryani"]
+},
+"Divine cafe Ranipet": {
+  reviews:"4.5 ⭐ Cafe foods",
+  popular:[
+    {name:"Burger", img:"https://images.unsplash.com/photo-1568901346375-23c9450c58cd"},
+    {name:"Veg Nuggets", img:"https://images.unsplash.com/photo-1625944230945-1b7dd3b949ab"}
+  ],
+  menu:["Roti","Burger","Snacks"]
+},
+"Maaran's cafe Ranipet": {
+  reviews:"4.7 ⭐ Non veg cafe",
+  popular:[
+    {name:"Dragon Chicken", img:"https://www.indianhealthyrecipes.com/wp-content/uploads/2025/02/dragon-chicken-recipe.jpg"},
+    {name:"Egg Rice", img:"https://www.australianeggs.org.au/assets/Uploads/Egg-fried-rice-2.jpg"}
+  ],
+  menu:["Chicken","Juice","Soup"]
+},
+// 🔴 SALEM
+"Thamboora restaurant Salem": {
+  reviews:"4.5 ⭐ Dessert cafe",
+  popular:[
+    {name:"Brownie", img:"https://images.unsplash.com/photo-1606313564200-e75d5e30476c"},
+    {name:"Milk Shake", img:"https://www.dessertfortwo.com/wp-content/uploads/2022/08/How-to-Make-a-Milkshake-11-735x1103.jpg"}
+  ],
+  menu:["Brownie","Shake","Mojito"]
+},
+"Submarine restaurant Salem": {
+  reviews:"4.7 ⭐ Snacks special",
+  popular:[
+    {name:"Egg Sandwich", img:"https://staticcookist.akamaized.net/wp-content/uploads/sites/22/2021/12/egg1-1200x675.jpg"},
+    {name:"Vada Pav", img:"https://blog.swiggy.com/wp-content/uploads/2024/11/Image-1_mumbai-vada-pav-1024x538.png"}
+  ],
+  menu:["Naan","Sandwich","Juice"]
+},
+"Nikka briyani Salem": {
+  reviews:"4.8 ⭐ Famous biryani",
+  popular:[
+    {name:"Chicken Biryani", img:"https://vismaifood.com/storage/app/uploads/public/914/f47/fa9/thumb__1200_0_0_0_auto.jpg"},
+    {name:"Prawn Fry", img:"https://i.ytimg.com/vi/Wkzq45N8rtU/maxresdefault.jpg"}
+  ],
+  menu:["Biryani","Soup","Fry"]
+},
+
+  // 🔴 SIVAGANGI
+  "Lala Restaurant Sivagangi": {
+    reviews: "4.3 ⭐ Family restaurant with tasty South Indian meals",
+    popular: [
+      {name:"Meals", img:"https://static.vecteezy.com/system/resources/thumbnails/068/494/726/small/traditional-indian-thali-meal-served-on-banana-leaf-displaying-culinary-delights-photo.jpg"},
+      {name:"Chicken Curry", img:"https://static.toiimg.com/thumb/58257616.cms?imgsize=486514&width=800&height=800"}
+    ],
+    menu:["Meals","Chicken Curry","Parotta","Fried Rice"]
+  },
+  "Velan Restaurant Sivagangi": {
+    reviews: "4.2 ⭐ Good taste and budget friendly",
+    popular: [
+      {name:"Parotta", img:"https://i0.wp.com/www.chitrasfoodbook.com/wp-content/uploads/2018/12/tomato-salna-recipe.jpg?resize=500%2C535&ssl=1"},
+      {name:"Chicken Fry", img:"https://gingerskillet.com/wp-content/uploads/2023/09/keralachickenfry_F.jpg"}
+    ],
+    menu:["Parotta","Chicken Fry","Meals","Dosa"]
+  },
+  "Malairam Restaurant Sivagangi": {
+    reviews: "4.0 ⭐ Local favorite restaurant",
+    popular: [
+      {name:"Idli", img:"https://artofpalate.com/wp-content/uploads/2016/08/idli-with-rice-flour.jpg"},
+      {name:"Dosa", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRx-glTW9VpM8O7nW1los6X5F9VkIOaj07rgw&s"}
+    ],
+    menu:["Idli","Dosa","Pongal","Meals"]
+  },
+
+  // 🔴 TENKASI
+  "Kalari Kari Virundhu Tenkasi": {
+    reviews: "4.7 ⭐ Famous for authentic non-veg meals",
+    popular: [
+      {name:"Mutton Curry", img:"https://static.toiimg.com/photo/63201465.cms"},
+      {name:"Meals", img:"https://content.jdmagicbox.com/v2/comp/vellore/z3/9999px416.x416.230306225307.g4z3/catalogue/ussoor-king-biryani-ussoor-vellore-restaurants-deng9knddp-250.jpg"}
+    ],
+    menu:["Meals","Mutton Curry","Chicken Fry","Biryani"]
+  },
+  "Drizzle Restaurant Tenkasi": {
+    reviews: "4.4 ⭐ Stylish dining with tasty food",
+    popular: [
+      {name:"Grill Chicken", img:"https://spiceindiaonline.com/wp-content/uploads/2021/05/Tandoori-Chicken-20.jpg"},
+      {name:"Fried Rice", img:"https://www.tilda.com/en-in/wp-content/uploads/sites/21/2021/05/chicken-fried-rice-low-res-2.png"}
+    ],
+    menu:["Grill Chicken","Fried Rice","Noodles","Pizza"]
+  },
+  "Food Hub Tenkasi": {
+    reviews: "4.3 ⭐ Good snacks and dinner spot",
+    popular: [
+      {name:"Burger", img:"https://images.unsplash.com/photo-1568901346375-23c9450c58cd"},
+      {name:"Chicken Pizza", img:"https://images.unsplash.com/photo-1513104890138-7c749659a591"}
+    ],
+    menu:["Burger","Pizza","Sandwich","Shawarma"]
+  },
+
+  // 🔴 THANJAVUR
+  "Sree Ariya Bhavan Thanjavur": {
+    reviews: "4.5 ⭐ Famous vegetarian restaurant",
+    popular: [
+      {name:"Mini Tiffin", img:"https://c.ndtvimg.com/2025-03/odu6bss_south-indian-food_625x300_04_March_25.jpg?im=FaceCrop,algorithm=dnn,width=384,height=384"},
+      {name:"Meals", img:"https://thumbs.dreamstime.com/b/authentic-kerala-meals-thali-traditional-south-indian-platter-served-banana-leaf-featuring-steamed-rice-papadam-366131538.jpg"}
+    ],
+    menu:["Mini Tiffin","Meals","Dosa","Idli"]
+  },
+  "Barbequeen Restaurant Thanjavur": {
+    reviews: "4.4 ⭐ Popular grill and BBQ spot",
+    popular: [
+      {name:"Barbeque Chicken", img:"https://images.unsplash.com/photo-1529193591184-b1d58069ecdd"},
+      {name:"Tandoori Chicken", img:"https://spiceindiaonline.com/wp-content/uploads/2021/05/Tandoori-Chicken-20.jpg"}
+    ],
+    menu:["BBQ Chicken","Tandoori","Grill Fish","Biryani"]
+  },
+  "Keso Cafe Thanjavur": {
+    reviews: "4.3 ⭐ Cafe with snacks and beverages",
+    popular: [
+      {name:"Cold Coffee", img:"https://images.unsplash.com/photo-1461023058943-07fcbe16d735"},
+      {name:"French Fries", img:"https://images.unsplash.com/photo-1573080496219-bb080dd4f877"}
+    ],
+    menu:["Coffee","Fries","Burger","Sandwich"]
+  },
+
+  // 🔴 THENI
+  "Military Hotel and Cafe Theni": {
+    reviews: "4.5 ⭐ Famous for spicy non-veg dishes",
+    popular: [
+      {name:"Mutton Chukka", img:"https://www.lekhafoods.com/media/1051277/virudhunagar-mutton-sukka.jpg"},
+      {name:"Chicken Biryani", img:"https://www.cubesnjuliennes.com/wp-content/uploads/2020/07/Chicken-Biryani-Recipe.jpg"}
+    ],
+    menu:["Mutton Chukka","Chicken Biryani","Parotta","Meals"]
+  },
+  "Maruthi Restaurant Theni": {
+    reviews: "4.2 ⭐ Family restaurant with veg and non-veg",
+    popular: [
+      {name:"Meals", img:"https://i.ytimg.com/vi/XRcD3nLGc8U/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLAYCAYTxGnrYlpU4EL-ioKR77oPug"},
+      {name:"Chicken Curry", img:"https://untoldrecipesbynosheen.com/wp-content/uploads/2022/02/chicken-salan-featured-1.jpg"}
+    ],
+    menu:["Meals","Chicken Curry","Dosa","Chapati"]
+  },
+  "Ridha Pizzeria Theni": {
+    reviews: "4.4 ⭐ Pizza and fast food favorite",
+    popular: [
+      {name:"Veg Pizza", img:"https://cdn.loveandlemons.com/wp-content/uploads/2023/02/vegetarian-pizza.jpg"},
+      {name:"Cheese Burger", img:"https://www.recipetineats.com/tachyon/2022/08/Stack-of-cheeseburgers.jpg"}
+    ],
+    menu:["Pizza","Burger","Pasta","French Fries"]
+  },
+
+  // 🔴 THOOTHUKUDI
+  "SDR Restaurant and Cafe Thoothukudi": {
+    reviews: "4.3 ⭐ Good ambience and tasty food",
+    popular: [
+      {name:"Chicken Fried Rice", img:"https://www.tilda.com/en-in/wp-content/uploads/sites/21/2021/05/chicken-fried-rice-low-res-2.png"},
+      {name:"Grill Chicken", img:"https://spiceindiaonline.com/wp-content/uploads/2021/05/Tandoori-Chicken-20.jpg"}
+    ],
+    menu:["Fried Rice","Grill Chicken","Noodles","Shawarma"]
+  },
+  "Arabian Lulu Restaurant Thoothukudi": {
+    reviews: "4.5 ⭐ Arabian style dishes and shawarma",
+    popular: [
+      {name:"Shawarma", img:"https://images.unsplash.com/photo-1529006557810-274b9b2fc783"},
+      {name:"Al Faham Chicken", img:"https://images.unsplash.com/photo-1603360946369-dc9bb6258143"}
+    ],
+    menu:["Shawarma","Al Faham","Mandi","Grill Chicken"]
+  },
+  "AK&Sons Restaurant Thoothukudi": {
+    reviews: "4.2 ⭐ Popular family restaurant",
+    popular: [
+      {name:"Fish Fry", img:"https://t3.ftcdn.net/jpg/11/70/50/60/360_F_1170506067_Q3yuOnvKCH4obRLgyVFJ8QXAALS9uCV4.jpg"},
+      {name:"Meals", img:"https://i.ytimg.com/vi/XRcD3nLGc8U/hq720.jpg?sqp=-oaymwEhCK4FEIIDSFryq4qpAxMIARUAAAAAGAElAADIQj0AgKJD&rs=AOn4CLAYCAYTxGnrYlpU4EL-ioKR77oPug"}
+    ],
+    menu:["Fish Fry","Meals","Chicken Curry","Rice"]
+  },
+
+  // 🔴 TIRUCHIRAPPALLI
+  "Shri Sangeethas Tiruchirappalli": {
+    reviews: "4.7 ⭐ Famous vegetarian chain restaurant",
+    popular: [
+      {name:"Mini Tiffin", img:"https://c.ndtvimg.com/2025-03/odu6bss_south-indian-food_625x300_04_March_25.jpg?im=FaceCrop,algorithm=dnn,width=384,height=384"},
+      {name:"Meals", img:"https://thumbs.dreamstime.com/b/authentic-kerala-meals-thali-traditional-south-indian-platter-served-banana-leaf-featuring-steamed-rice-papadam-366131538.jpg"}
+    ],
+    menu:["Mini Tiffin","Meals","Dosa","Coffee"]
+  },
+  "Appathaa Samayall Tiruchirappalli": {
+    reviews: "4.4 ⭐ Traditional Tamil home-style food",
+    popular: [
+      {name:"Meals", img:"https://static.vecteezy.com/system/resources/thumbnails/068/494/726/small/traditional-indian-thali-meal-served-on-banana-leaf-displaying-culinary-delights-photo.jpg"},
+      {name:"Fish Curry", img:"https://www.thedeliciouscrescent.com/wp-content/uploads/2023/07/Fish-Curry-4.jpg"}
+    ],
+    menu:["Meals","Fish Curry","Chicken Fry","Rasam Rice"]
+  },
+  "The Roy Fine Dine Tiruchirappalli": {
+    reviews: "4.5 ⭐ Fine dining multi-cuisine restaurant",
+    popular: [
+      {name:"Paneer Butter Masala", img:"https://images.unsplash.com/photo-1631452180519-c014fe946bc7"},
+      {name:"Naan", img:"https://www.mygingergarlickitchen.com/wp-content/rich-markup-images/1x1/1x1-indian-paneer-stuffed-naan-video-recipe.jpg"}
+    ],
+    menu:["Paneer","Naan","Biryani","Soup"]
+  },
+
+  // 🔴 TIRUNELVELI
+  "D Parkz Tirunelveli": {
+    reviews: "4.3 ⭐ Stylish restaurant with family dining",
+    popular: [
+      {name:"Chicken Biryani", img:"https://www.cubesnjuliennes.com/wp-content/uploads/2020/07/Chicken-Biryani-Recipe.jpg"},
+      {name:"Grill Chicken", img:"https://spiceindiaonline.com/wp-content/uploads/2021/05/Tandoori-Chicken-20.jpg"}
+    ],
+    menu:["Biryani","Grill Chicken","Rice","Noodles"]
+  },
+  "Udhaya Vilas Tirunelveli": {
+    reviews: "4.4 ⭐ Popular vegetarian restaurant",
+    popular: [
+      {name:"Idli", img:"https://artofpalate.com/wp-content/uploads/2016/08/idli-with-rice-flour.jpg"},
+      {name:"Pongal", img:"https://www.indianhealthyrecipes.com/wp-content/uploads/2021/01/sweet-pongal-chakkara-pongal-500x500.jpg"}
+    ],
+    menu:["Idli","Pongal","Dosa","Meals"]
+  },
+  "Naadody Restaurant Tirunelveli": {
+    reviews: "4.5 ⭐ Famous for South Indian and non-veg dishes",
+    popular: [
+      {name:"Parotta", img:"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEj-jw8L3lyMMwpFlC5jKbrQy0d2D8MkTw8PN8DN4T_bhHggRF-xsQnaWW7sgmhiotLbTHaMi0Zy3tlId1lJQsy_SrW_xPxNwx74AucK_jGKNVB-X-a2U0_8REW0R3RBbZZWkznexbM0DL1E/s1600/Chicken_Salna.JPG"},
+      {name:"Chicken Curry", img:"https://untoldrecipesbynosheen.com/wp-content/uploads/2022/02/chicken-salan-featured-1.jpg"}
+    ],
+    menu:["Parotta","Chicken Curry","Meals","Biryani"]
+  },
+  // 🔴 TIRUPATHUR
+  "Ahmedia Restaurant Tirupathur": {
+    reviews: "4.3 ⭐ Tasty biryani and non-veg dishes",
+    popular: [
+      {name:"Chicken Biryani", img:"https://www.cubesnjuliennes.com/wp-content/uploads/2020/07/Chicken-Biryani-Recipe.jpg"},
+      {name:"Mutton Curry", img:"https://static.toiimg.com/photo/63201465.cms"}
+    ],
+    menu:["Chicken Biryani","Mutton Curry","Parotta","Meals"]
+  },
+  "Yaazh Chettinadu Mess Tirupathur": {
+    reviews: "4.5 ⭐ Authentic Chettinad flavor",
+    popular: [
+      {name:"Chicken Chettinad", img:"https://www.whiskaffair.com/wp-content/uploads/2020/09/Chicken-Chettinad-Curry-2-3.jpg"},
+      {name:"Mutton Sukka", img:"https://foodieadamandcookieeve.wordpress.com/wp-content/uploads/2015/03/mutton-chukka-2-of-11.jpg"}
+    ],
+    menu:["Chicken Chettinad","Mutton Sukka","Meals","Parotta"]
+  },
+  "The Aroma Multi Cuisine Restaurant Tirupathur": {
+    reviews: "4.2 ⭐ Good ambience and tasty dinner spot",
+    popular: [
+      {name:"Noodles", img:"https://images.unsplash.com/photo-1617093727343-374698b1b08d"},
+      {name:"Fried Rice", img:"https://www.indianhealthyrecipes.com/wp-content/uploads/2020/12/fried-rice.jpg"}
+    ],
+    menu:["Noodles","Fried Rice","Soup","Burger"]
+  },
+
+  // 🔴 TIRUPPUR
+  "Kailash Parbat Tiruppur": {
+    reviews: "4.4 ⭐ Popular veg and North Indian restaurant",
+    popular: [
+      {name:"Chaat", img:"https://assets.epicurious.com/photos/60f09a34ae9cc866a51a25d0/1:1/w_2560%2Cc_limit/ChickpeaPotatoChaat_RECIPE_071321_19121.jpg"},
+      {name:"Paneer Butter Masala", img:"https://images.unsplash.com/photo-1631452180519-c014fe946bc7"}
+    ],
+    menu:["Chaat","Paneer","Naan","Meals"]
+  },
+  "Grill Park Tiruppur": {
+    reviews: "4.5 ⭐ Famous grill and BBQ place",
+    popular: [
+      {name:"Grill Chicken", img:"https://spiceindiaonline.com/wp-content/uploads/2021/05/Tandoori-Chicken-20.jpg"},
+      {name:"Shawarma", img:"https://images.unsplash.com/photo-1529006557810-274b9b2fc783"}
+    ],
+    menu:["Grill Chicken","Shawarma","Fried Rice","Burger"]
+  },
+  "One Dine Tiruppur": {
+    reviews: "4.3 ⭐ Modern family dining restaurant",
+    popular: [
+      {name:"Pizza", img:"https://images.unsplash.com/photo-1513104890138-7c749659a591"},
+      {name:"Burger", img:"https://images.unsplash.com/photo-1568901346375-23c9450c58cd"}
+    ],
+    menu:["Pizza","Burger","Pasta","Fries"]
+  },
+
+  // 🔴 TIRUVALLUR
+  "The Mayflower Tiruvallur": {
+    reviews: "4.4 ⭐ Premium hotel restaurant",
+    popular: [
+      {name:"Chicken Biryani", img:"https://www.cubesnjuliennes.com/wp-content/uploads/2020/07/Chicken-Biryani-Recipe.jpg"},
+      {name:"Grill Chicken", img:"https://spiceindiaonline.com/wp-content/uploads/2021/05/Tandoori-Chicken-20.jpg"}
+    ],
+    menu:["Biryani","Grill Chicken","Soup","Rice"]
+  },
+  "Oyepai Tiruvallur": {
+    reviews: "4.2 ⭐ Fast food and snacks restaurant",
+    popular: [
+      {name:"Burger", img:"https://images.unsplash.com/photo-1568901346375-23c9450c58cd"},
+      {name:"French Fries", img:"https://images.unsplash.com/photo-1573080496219-bb080dd4f877"}
+    ],
+    menu:["Burger","Fries","Sandwich","Pizza"]
+  },
+  "Nithya Amirtham Tiruvallur": {
+    reviews: "4.5 ⭐ Pure veg tiffin and meals restaurant",
+    popular: [
+      {name:"Idli", img:"https://artofpalate.com/wp-content/uploads/2016/08/idli-with-rice-flour.jpg"},
+      {name:"Dosa", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRx-glTW9VpM8O7nW1los6X5F9VkIOaj07rgw&s"}
+    ],
+    menu:["Idli","Dosa","Meals","Pongal"]
+  },
+
+  // 🔴 TIRUVANNAMALAI
+  "The Dreaming Tree Restaurant Tiruvannamalai": {
+    reviews: "4.4 ⭐ Peaceful ambience and quality food",
+    popular: [
+      {name:"Pasta", img:"https://www.cookwithkushi.com/wp-content/uploads/2016/07/best_white_sauce_pasta_bechamel_sauce-500x500.jpg"},
+      {name:"Pizza", img:"https://images.unsplash.com/photo-1513104890138-7c749659a591"}
+    ],
+    menu:["Pasta","Pizza","Soup","Coffee"]
+  },
+  "Hotel Ananda Ramana Tiruvannamalai": {
+    reviews: "4.3 ⭐ Vegetarian family restaurant",
+    popular: [
+      {name:"Meals", img:"https://thumbs.dreamstime.com/b/authentic-kerala-meals-thali-traditional-south-indian-platter-served-banana-leaf-featuring-steamed-rice-papadam-366131538.jpg"},
+      {name:"Dosa", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRx-glTW9VpM8O7nW1los6X5F9VkIOaj07rgw&s"}
+    ],
+    menu:["Meals","Dosa","Idli","Coffee"]
+  },
+  "Rudraksh Vegetarian Restaurant Tiruvannamalai": {
+    reviews: "4.5 ⭐ Popular pure veg restaurant",
+    popular: [
+      {name:"North Indian Meals", img:"https://www.subbuskitchen.com/wp-content/uploads/2014/07/NorthIndian-Lunch-Menu1_Final2.jpg"},
+      {name:"Chaat", img:"https://assets.epicurious.com/photos/60f09a34ae9cc866a51a25d0/1:1/w_2560%2Cc_limit/ChickpeaPotatoChaat_RECIPE_071321_19121.jpg"}
+    ],
+    menu:["Meals","Chaat","Paneer","Roti"]
+  },
+
+  // 🔴 TIRUVARUR
+  "Bagavathi Mess Tiruvarur": {
+    reviews: "4.4 ⭐ Traditional mess with tasty meals",
+    popular: [
+      {name:"Meals", img:"https://dynamic-media-cdn.tripadvisor.com/media/photo-o/07/d3/76/09/rassam.jpg?w=900&h=500&s=1"},
+      {name:"Fish Fry", img:"https://t3.ftcdn.net/jpg/11/70/50/60/360_F_1170506067_Q3yuOnvKCH4obRLgyVFJ8QXAALS9uCV4.jpg"}
+    ],
+    menu:["Meals","Fish Fry","Chicken Curry","Rice"]
+  },
+  "S S Crunch Restaurant Tiruvarur": {
+    reviews: "4.2 ⭐ Good snacks and dinner restaurant",
+    popular: [
+      {name:"Burger", img:"https://images.unsplash.com/photo-1568901346375-23c9450c58cd"},
+      {name:"Pizza", img:"https://images.unsplash.com/photo-1513104890138-7c749659a591"}
+    ],
+    menu:["Burger","Pizza","Fries","Shawarma"]
+  },
+  "Feast Restaurant Tiruvarur": {
+    reviews: "4.3 ⭐ Family dining with variety menu",
+    popular: [
+      {name:"Chicken Fried Rice", img:"https://www.tilda.com/en-in/wp-content/uploads/sites/21/2021/05/chicken-fried-rice-low-res-2.png"},
+      {name:"Grill Chicken", img:"https://spiceindiaonline.com/wp-content/uploads/2021/05/Tandoori-Chicken-20.jpg"}
+    ],
+    menu:["Fried Rice","Grill Chicken","Soup","Noodles"]
+  },
+
+  // 🔴 VELLORE
+  "Kailash Parbat Vellore": {
+    reviews: "4.5 ⭐ Famous veg and North Indian restaurant",
+    popular: [
+      {name:"Paneer Butter Masala", img:"https://images.unsplash.com/photo-1631452180519-c014fe946bc7"},
+      {name:"Chaat", img:"https://assets.epicurious.com/photos/60f09a34ae9cc866a51a25d0/1:1/w_2560%2Cc_limit/ChickpeaPotatoChaat_RECIPE_071321_19121.jpg"}
+    ],
+    menu:["Paneer","Chaat","Roti","Meals"]
+  },
+  "Alankars Virundhu Vellore": {
+    reviews: "4.4 ⭐ Popular South Indian meals spot",
+    popular: [
+      {name:"Meals", img:"https://static.vecteezy.com/system/resources/thumbnails/068/494/726/small/traditional-indian-thali-meal-served-on-banana-leaf-displaying-culinary-delights-photo.jpg"},
+      {name:"Chicken Curry", img:"https://untoldrecipesbynosheen.com/wp-content/uploads/2022/02/chicken-salan-featured-1.jpg"}
+    ],
+    menu:["Meals","Chicken Curry","Fish Fry","Rice"]
+  },
+  "Zaitoon Restaurant Vellore": {
+    reviews: "4.6 ⭐ Popular Arabian and biryani restaurant",
+    popular: [
+      {name:"Shawarma", img:"https://images.unsplash.com/photo-1529006557810-274b9b2fc783"},
+      {name:"Chicken Biryani", img:"https://www.cubesnjuliennes.com/wp-content/uploads/2020/07/Chicken-Biryani-Recipe.jpg"}
+    ],
+    menu:["Shawarma","Biryani","Grill Chicken","Mandi"]
+  },
+
+  // 🔴 VILLUPPURAM
+  "Nikaa Briyani Villuppuram": {
+    reviews: "4.4 ⭐ Famous biryani restaurant",
+    popular: [
+      {name:"Chicken Biryani", img:"https://www.cubesnjuliennes.com/wp-content/uploads/2020/07/Chicken-Biryani-Recipe.jpg"},
+      {name:"Mutton Biryani", img:"https://www.cubesnjuliennes.com/wp-content/uploads/2021/03/Best-Mutton-Biryani-Recipe.jpg"}
+    ],
+    menu:["Chicken Biryani","Mutton Biryani","Chicken 65","Rice"]
+  },
+  "Velan Mess Villuppuram": {
+    reviews: "4.3 ⭐ Traditional meals and curry restaurant",
+    popular: [
+      {name:"Meals", img:"https://dynamic-media-cdn.tripadvisor.com/media/photo-o/07/d3/76/09/rassam.jpg?w=900&h=500&s=1"},
+      {name:"Chicken Fry", img:"https://gingerskillet.com/wp-content/uploads/2023/09/keralachickenfry_F.jpg"}
+    ],
+    menu:["Meals","Chicken Fry","Fish Fry","Parotta"]
+  },
+  "Dindigul Thalappakatti Restaurant Villuppuram": {
+    reviews: "4.6 ⭐ Famous Dindigul biryani chain",
+    popular: [
+      {name:"Dindigul Biryani", img:"https://instamart-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto,h_960,w_960//InstamartAssets/2/Dindigul_Biryani.webp?updatedAt=1730794239017"},
+      {name:"Chicken 65", img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxLUylpXSB7u85LFAYqTeMTc1SBAuH-YKJ_Q&s"}
+    ],
+    menu:["Dindigul Biryani","Chicken 65","Mutton","Meals"]
+  },
+
+  // 🔴 VIRUDHUNAGAR
+  "Buhari Hotel Virudhunagar": {
+    reviews: "4.3 ⭐ Popular family dining restaurant",
+    popular: [
+      {name:"Chicken Biryani", img:"https://www.cubesnjuliennes.com/wp-content/uploads/2020/07/Chicken-Biryani-Recipe.jpg"},
+      {name:"Parotta", img:"https://i0.wp.com/www.chitrasfoodbook.com/wp-content/uploads/2018/12/tomato-salna-recipe.jpg?resize=500%2C535&ssl=1"}
+    ],
+    menu:["Biryani","Parotta","Chicken Curry","Meals"]
+  },
+  "Virudhunagar Ayyanar Mess Virudhunagar": {
+    reviews: "4.8 ⭐ Very famous local mess and non-veg spot",
+    popular: [
+      {name:"Mutton Chukka", img:"https://foodieadamandcookieeve.wordpress.com/wp-content/uploads/2015/03/mutton-chukka-2-of-11.jpg"},
+
+      {name:"Chicken Biryani", img:"https://www.cubesnjuliennes.com/wp-content/uploads/2020/07/Chicken-Biryani-Recipe.jpg"},
+      {name:"Parotta", img:"https://vismaifood.com/storage/app/uploads/public/9d5/e87/52c/thumb__700_0_0_0_auto.jpg"}
+    ],
+    menu:["Biryani","Parotta","Chicken Curry","Meals"]
+  },
+  "Virudhunagar Ayyanar Mess Virudhunagar": {
+    reviews: "4.8 ⭐ Very famous local mess and non-veg spot",
+    popular: [
+      {name:"Mutton Chukka", img:"https://foodieadamandcookieeve.wordpress.com/wp-content/uploads/2015/03/mutton-chukka-2-of-11.jpg"},
+      {name:"Meals", img:"https://content.jdmagicbox.com/v2/comp/vellore/z3/9999px416.x416.230306225307.g4z3/catalogue/ussoor-king-biryani-ussoor-vellore-restaurants-deng9knddp-250.jpg"}
+    ],
+    menu:["Meals","Mutton Chukka","Chicken Fry","Fish Fry"]
+  },
+  "The Mayflower Virudhunagar": {
+    reviews: "4.4 ⭐ Good ambience and multi-cuisine food",
+    popular: [
+      {name:"Paneer Butter Masala", img:"https://images.unsplash.com/photo-1631452180519-c014fe946bc7"},
+      {name:"Naan", img:"https://bakewithzoha.com/wp-content/uploads/2023/06/roghni-naan-featured.jpg"}
+    ],
+    menu:["Paneer","Naan","Biryani","Soup"]
+  }
+
+};
+
+
+// 🔍 GET PARAM
+function getParam(name) {
+  const url = window.location.search.substring(1);
+  const vars = url.split("&");
+
+  for (let i = 0; i < vars.length; i++) {
+    const pair = vars[i].split("=");
+    if (pair[0] == name) {
+      return decodeURIComponent(pair[1]);
+    }
+  }
+  return null;
+}
+
+let res = getParam("res");
+console.log("Selected:", res);
+// 🔥 FIX: handle null + spaces
+if(res){
+  res = decodeURIComponent(res.trim());
+}
+
+// 🔍 DEBUG
+console.log("Selected:", res);
+
+// ✅ FIND DATA (SMART MATCH)
+let data = restaurants[res];
+
+// 🔥 EXTRA SAFETY (ignore case issues)
+if(!data){
+  const key = Object.keys(restaurants).find(k => k.toLowerCase() === res.toLowerCase());
+  if(key) data = restaurants[key];
+}
+
+// ✅ LOAD DATA
+if(data){
+
+  document.getElementById("resName").innerText = res;
+  document.getElementById("reviews").innerText = data.reviews;
+
+  let html="";
+  data.popular.forEach(item=>{
+    html += `
+      <div class="card">
+        <img src="${item.img}">
+        <p>${item.name}</p>
+      </div>`;
+  });
+
+  document.getElementById("popular").innerHTML = html;
+  document.getElementById("menu").innerText = data.menu.join(", ");
+
+  document.getElementById("moreBtn").onclick = function(){
+    window.location.href = "more.html?res=" + encodeURIComponent(res);
+  };
+
+}else{
+  document.getElementById("resName").innerText = "❌ Data Not Found";
+}
+
+function goBack(){
+  window.location.href = "restaurant1.html";
+}
+</script>
+
+</body>
+</html>

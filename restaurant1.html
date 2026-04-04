@@ -1,0 +1,414 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tamil Nadu Food Finder</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: url('https://res.cloudinary.com/jerrick/image/upload/d_642250b563292b35f27461a7.png,f_jpg,fl_progressive,q_auto,w_1024/6405bd4a5d4221001d8a304d.jpg') no-repeat center/cover;
+    color: white;
+    text-align: center;
+}
+
+.overlay {
+    background: rgba(0,0,0,0.75);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+select {
+    padding: 10px;
+    margin: 20px;
+    font-size: 16px;
+}
+
+.section {
+    display: none;
+}
+
+.section:target {
+    display: block;
+}
+
+.card {
+    background: rgba(255,255,255,0.1);
+    padding: 12px;
+    margin: 10px auto;
+    width: 260px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.card:hover {
+    background: rgba(255,255,255,0.3);
+    transform: scale(1.05);
+}
+</style>
+</head>
+
+<body>
+
+<div class="overlay">
+
+<h1>🍽️ Tamil Nadu Top Restaurants</h1>
+
+<select onchange="location=this.value;">
+<option value="">-- Select District --</option>
+<option value="#ariyalur">Ariyalur</option>
+<option value="#chengalpattu">Chengalpattu</option>
+<option value="#chennai">Chennai</option>
+<option value="#coimbatore">Coimbatore</option>
+<option value="#cuddalore">Cuddalore</option>
+<option value="#dharmapuri">Dharmapuri</option>
+<option value="#dindigul">Dindigul</option>
+<option value="#erode">Erode</option>
+<option value="#kallakurichi">Kallakurichi</option>
+<option value="#kancheepuram">Kancheepuram</option>
+<option value="#kaniya kumari">Kaniya kumari</option>
+<option value="#karur">Karur</option>
+<option value="#krishnagiri">Krishnagiri</option>
+<option value="#Madurai">madurai</option>
+<option value="#Mayiladuthurai">mayiladuthurai</option>
+<option value="#Nagapattinam">Nagapattinam</option>
+<option value="#Nilgiris">Nilgiris</option>
+<option value="#Namakkal">Namakkal</option>
+<option value="#Perambalur">Perambalur</option>
+<option value="#Pudukkottai">Pudukkottai</option>
+<option value="#Ramanathapuram">Ramanathapuram</option>
+<option value="#Ranipet">Ranipet</option>
+<option value="#Salem">Salem</option>
+<option value="#sivagangi">Sivagangi</option>
+<option value="#tenkasi">Tenkasi</option>
+<option value="#thanjavur">Thanjavur</option>
+<option value="#theni">Theni</option>
+<option value="#thoothukudi">Thoothukudi</option>
+<option value="#tiruchirappalli">Tiruchirappalli</option>
+<option value="#tirunelveli">Tirunelveli</option>
+<option value="#tirupathur">Tirupathur</option>
+<option value="#tiruppur">Tiruppur</option>
+<option value="#tiruvallur">Tiruvallur</option>
+<option value="#tiruvannamalai">Tiruvannamalai</option>
+<option value="#tiruvarur">Tiruvarur</option>
+<option value="#vellore">Vellore</option>
+<option value="#villuppuram">Villuppuram</option>
+<option value="#virudhunagar">Virudhunagar</option>
+</select>
+
+<p>👉 Select a district</p>
+
+<!-- ARIYALUR -->
+<div id="ariyalur" class="section">
+<h2>Ariyalur</h2>
+<div class="card" onclick="go('Ariyalur Mess')">Ariyalur Mess ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('Hotel Annapoorna Ariyalur')">Hotel Annapoorna ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('New Arya Bhavan Ariyalur')">New Arya Bhavan ⭐⭐⭐</div>
+</div>
+
+<!-- CHENGALPATTU -->
+<div id="chengalpattu" class="section">
+<h2>Chengalpattu</h2>
+<div class="card" onclick="go('Sangeetha Veg Chengalpattu')">Sangeetha Veg ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('Hotel Crescent Chengalpattu')">Hotel Crescent ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('Anjappar Chengalpattu')">Anjappar ⭐⭐⭐⭐</div>
+</div>
+
+<!-- CHENNAI -->
+<div id="chennai" class="section">
+<h2>Chennai</h2>
+<div class="card" onclick="go('Anjappar Chennai')">Anjappar Chettinad ⭐⭐⭐⭐⭐</div>
+<div class="card" onclick="go('Murugan Idli Chennai')">Murugan Idli Shop ⭐⭐⭐⭐⭐</div>
+<div class="card" onclick="go('SS Hyderabad Biryani Chennai')">SS Hyderabad Biryani ⭐⭐⭐⭐</div>
+</div>
+
+<!-- COIMBATORE -->
+<div id="coimbatore" class="section">
+<h2>Coimbatore</h2>
+<div class="card" onclick="go('Junior Kuppanna Coimbatore')">Junior Kuppanna ⭐⭐⭐⭐⭐</div>
+<div class="card" onclick="go('Annapoorna Coimbatore')">Annapoorna ⭐⭐⭐⭐⭐</div>
+<div class="card" onclick="go('Haribhavanam Coimbatore')">Haribhavanam ⭐⭐⭐⭐</div>
+</div>
+
+<!-- CUDDALORE -->
+<div id="cuddalore" class="section">
+<h2>Cuddalore</h2>
+<div class="card" onclick="go('Hotel Aishwarya Cuddalore')">Hotel Aishwarya ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('Sree Annapoorna Cuddalore')">Sree Annapoorna ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('New Krishna Bhavan Cuddalore')">New Krishna Bhavan ⭐⭐⭐</div>
+</div>
+
+<!-- DHARMAPURI -->
+<div id="dharmapuri" class="section">
+<h2>Dharmapuri</h2>
+<div class="card" onclick="go('Hotel Gowri Krishna Dharmapuri')">Hotel Gowri Krishna ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('Saravana Bhavan Dharmapuri')">Saravana Bhavan ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('A2B Dharmapuri')">A2B ⭐⭐⭐⭐</div>
+</div>
+
+<!-- DINDIGUL -->
+<div id="dindigul" class="section">
+<h2>Dindigul</h2>
+<div class="card" onclick="go('Thalappakatti Dindigul')">Thalappakatti ⭐⭐⭐⭐⭐</div>
+<div class="card" onclick="go('Ponram Dindigul')">Ponram Biryani ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('Sree Baalaaji Bhavan Dindigul')">Sree Baalaaji Bhavan ⭐⭐⭐⭐</div>
+</div>
+
+<!-- ERODE -->
+<div id="erode" class="section">
+<h2>Erode</h2>
+<div class="card" onclick="go('Sakthi Mess Erode')">Sakthi Mess ⭐⭐⭐⭐⭐</div>
+<div class="card" onclick="go('Annapoorna Erode')">Annapoorna ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('Hotel Aishwarya Erode')">Hotel Aishwarya ⭐⭐⭐⭐</div>
+</div>
+
+<!-- KALLAKURICHI -->
+<div id="kallakurichi" class="section">
+<h2>Kallakurichi</h2>
+<div class="card" onclick="go('Sri Krishna Bhavan Kallakurichi')">Sri Krishna Bhavan ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('Hotel Aryaas Kallakurichi')">Hotel Aryaas ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('New Saravana Kallakurichi')">New Saravana ⭐⭐⭐</div>
+</div>
+
+<!-- KANCHEEPURAM -->
+<div id="kancheepuram" class="section">
+<h2>Kancheepuram</h2>
+<div class="card" onclick="go('Sri Saravana Bhavan Kancheepuram')">Sri Saravana Bhavan ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('Sangeetha Kancheepuram')">Sangeetha ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('Hotel Baboo Kancheepuram')">Hotel Baboo ⭐⭐⭐</div>
+</div>
+
+<!--KANIYA KUMARI-->
+<div id="kaniya kumari" class="section">
+<h2>Kaniya kumari</h2>
+<div class="card" onclick="go('The curry Kaniya Kumari')">The curry ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('Zam zam kaniya kumari')">Zam zam ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('Sea view kanya kumari')">Sea view ⭐⭐⭐⭐</div>
+</div>  
+<!-- KARUR -->
+<div id="karur" class="section">
+<h2>Karur</h2>
+<div class="card" onclick="go('Hotel Hemala Karur')">Hotel Hemala ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('Sree Annapoorna Karur')">Sree Annapoorna ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('A2B Karur')">A2B ⭐⭐⭐⭐</div>
+</div>
+
+<!-- KRISHNAGIRI -->
+<div id="krishnagiri" class="section">
+<h2>Krishnagiri</h2>
+<div class="card" onclick="go('Hotel Sree Saravana Krishnagiri')">Hotel Sree Saravana ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('A2B Krishnagiri')">A2B ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('Hotel Gowri Krishnagiri')">Hotel Gowri ⭐⭐⭐⭐</div>
+</div>
+<!-- MADURAI -->
+<div id="Madurai" class="section">
+<h2>Madurai</h2>
+<div class="card" onclick="go('Melting pot Madurai')">Melting pot ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('The muniches Madurai')">The muniches ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('Amma mess Madurai')">Amma mess ⭐⭐⭐⭐</div>
+</div>
+<!-- MAYILADUTHURAI -->
+<div id="Mayiladuthurai" class="section">
+<h2>Mayiladuthurai</h2>
+<div class="card" onclick="go('Vasan\'s parambariya Mayiladuthurai')">Vasan's parambariya ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('Annamithra Mayiladuthurai')">Annamithra ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('Grand Inn Mayiladuthurai')">Grand Inn ⭐⭐⭐⭐</div>
+</div>
+<!-- NAGAPATTINAM -->
+<div id="Nagapattinam" class="section">
+<h2>Nagapattinam</h2>
+<div class="card" onclick="go('star Nagapattinam')">Star ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('Grand chettinadu Nagapattinam')">Grand chettinadu ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('Anifa briyani Nagapattinam')">Anifa briyani ⭐⭐⭐⭐</div>
+</div>
+<!-- NILGIRIS-->
+<div id="Nilgiris" class="section">
+<h2>Nilgiris</h2>
+<div class="card" onclick="go('A2A Nilgiris')">A2A ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('Blomming garden cafe Nilgiris')">Blomming garden cafe ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('Nilgiri express Nilgiris')">Nilgiri express ⭐⭐⭐⭐</div>
+</div>
+<!-- NAMAKKAL -->
+<div id="Namakkal" class="section">
+  <h2>Namakkal</h2>
+  <div class="card" onclick="go('Tempt multicuisine restaurant Namakkal')">Tempt multicuisine restaurant ⭐⭐⭐⭐</div>
+  <div class="card" onclick="go('Barbe queen restaurant Namakkal')">Barbe queen restaurant ⭐⭐⭐⭐</div>
+  <div class="card" onclick="go('Table tree family restaurant Namakkal')">Table tree family restaurant ⭐⭐⭐⭐</div>
+</div>
+
+<!-- PERAMBALUR -->
+<div id="Perambalur" class="section">
+  <h2>Perambalur</h2>
+  <div class="card" onclick="go('Ishtaa restaurant Perambalur')">Ishtaa restaurant ⭐⭐⭐⭐</div>
+  <div class="card" onclick="go('Kooraikadai jayaraman mess Perambalur')">Kooraikadai jayaraman mess ⭐⭐⭐⭐</div>
+  <div class="card" onclick="go('Aswins restaurant Perambalur')">Aswins restaurant ⭐⭐⭐⭐</div>
+</div>
+
+<!-- PUDUKKOTTAI -->
+<div id="Pudukkottai" class="section">
+  <h2>Pudukkottai</h2>
+  <div class="card" onclick="go('Koodoo family Pudukkottai')">Koodoo family ⭐⭐⭐⭐</div>
+  <div class="card" onclick="go('Hayatti Briyani Pudukkottai')">Hayatti Briyani ⭐⭐⭐⭐</div>
+  <div class="card" onclick="go('Palaniappa mess Pudukkottai')">Palaniappa mess ⭐⭐⭐⭐</div>
+</div>
+
+<!-- RAMANATHAPURAM -->
+<div id="Ramanathapuram" class="section">
+  <h2>Ramanathapuram</h2>
+  <div class="card" onclick="go('Zaitoon restaurant Ramanathapuram')">Zaitoon restaurant ⭐⭐⭐⭐</div>
+  <div class="card" onclick="go('Jade room veg restaurant Ramanathapuram')">Jade room veg restaurant ⭐⭐⭐⭐</div>
+  <div class="card" onclick="go('Bheemas nalabagam Ramanathapuram')">Bheemas nalabagam ⭐⭐⭐⭐</div>
+</div>
+
+<!-- RANIPET -->
+<div id="Ranipet" class="section">
+  <h2>Ranipet</h2>
+  <div class="card" onclick="go('Ranipet Zamindars family')">Ranipet Zamindars family ⭐⭐⭐⭐</div>
+  <div class="card" onclick="go('Divine cafe Ranipet')">Divine cafe ⭐⭐⭐⭐</div>
+  <div class="card" onclick="go('Maaran\'s cafe Ranipet')">Maaran's cafe ⭐⭐⭐⭐</div>
+</div>
+
+<!-- SALEM -->
+<div id="Salem" class="section">
+  <h2>Salem</h2>
+  <div class="card" onclick="go('Thamboora restaurant Salem')">Thamboora restaurant ⭐⭐⭐⭐</div>
+  <div class="card" onclick="go('Submarine restaurant Salem')">Submarine restaurant ⭐⭐⭐⭐</div>
+  <div class="card" onclick="go('Nikka briyani Salem')">Nikka briyani ⭐⭐⭐⭐</div>
+</div>
+<!-- SIVAGANGI -->
+<div id="sivagangi" class="section">
+<h2>Sivagangi</h2>
+<div class="card" onclick="go('Lala Restaurant Sivagangi')">Lala Restaurant ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('Velan Restaurant Sivagangi')">Velan Restaurant ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('Malairam Restaurant Sivagangi')">Malairam Restaurant ⭐⭐⭐</div>
+</div>
+
+<!-- TENKASI -->
+<div id="tenkasi" class="section">
+<h2>Tenkasi</h2>
+<div class="card" onclick="go('Kalari Kari Virundhu Tenkasi')">Kalari Kari Virundhu ⭐⭐⭐⭐⭐</div>
+<div class="card" onclick="go('Drizzle Restaurant Tenkasi')">Drizzle Restaurant ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('Food Hub Tenkasi')">Food Hub ⭐⭐⭐⭐</div>
+</div>
+
+<!-- THANJAVUR -->
+<div id="thanjavur" class="section">
+<h2>Thanjavur</h2>
+<div class="card" onclick="go('Sree Ariya Bhavan Thanjavur')">Sree Ariya Bhavan ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('Barbequeen Restaurant Thanjavur')">Barbequeen Restaurant ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('Keso Cafe Thanjavur')">Keso Cafe ⭐⭐⭐⭐</div>
+</div>
+
+<!-- THENI -->
+<div id="theni" class="section">
+<h2>Theni</h2>
+<div class="card" onclick="go('Military Hotel and Cafe Theni')">Military Hotel and Cafe ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('Maruthi Restaurant Theni')">Maruthi Restaurant ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('Ridha Pizzeria Theni')">Ridha Pizzeria ⭐⭐⭐⭐</div>
+</div>
+
+<!-- THOOTHUKUDI -->
+<div id="thoothukudi" class="section">
+<h2>Thoothukudi</h2>
+<div class="card" onclick="go('SDR Restaurant and Cafe Thoothukudi')">SDR Restaurant and Cafe ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('Arabian Lulu Restaurant Thoothukudi')">Arabian Lulu Restaurant ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('AK&Sons Restaurant Thoothukudi')">AK&Sons Restaurant ⭐⭐⭐⭐</div>
+</div>
+
+<!-- TIRUCHIRAPPALLI -->
+<div id="tiruchirappalli" class="section">
+<h2>Tiruchirappalli</h2>
+<div class="card" onclick="go('Shri Sangeethas Tiruchirappalli')">Shri Sangeethas ⭐⭐⭐⭐⭐</div>
+<div class="card" onclick="go('Appathaa Samayall Tiruchirappalli')">Appathaa Samayall ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('The Roy Fine Dine Tiruchirappalli')">The Roy Fine Dine ⭐⭐⭐⭐</div>
+</div>
+
+<!-- TIRUNELVELI -->
+<div id="tirunelveli" class="section">
+<h2>Tirunelveli</h2>
+<div class="card" onclick="go('D Parkz Tirunelveli')">D'Parkz ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('Udhaya Vilas Tirunelveli')">Udhaya Vilas ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('Naadody Restaurant Tirunelveli')">Naadody Restaurant ⭐⭐⭐⭐</div>
+</div>
+
+<!-- TIRUPATHUR -->
+<div id="tirupathur" class="section">
+<h2>Tirupathur</h2>
+<div class="card" onclick="go('Ahmedia Restaurant Tirupathur')">Ahmedia Restaurant ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('Yaazh Chettinadu Mess Tirupathur')">Yaazh Chettinadu Mess ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('The Aroma Multi Cuisine Restaurant Tirupathur')">The Aroma Multi Cuisine Restaurant ⭐⭐⭐⭐</div>
+</div>
+
+<!-- TIRUPPUR -->
+<div id="tiruppur" class="section">
+<h2>Tiruppur</h2>
+<div class="card" onclick="go('Kailash Parbat Tiruppur')">Kailash Parbat ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('Grill Park Tiruppur')">Grill Park ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('One Dine Tiruppur')">One Dine Tiruppur ⭐⭐⭐⭐</div>
+</div>
+
+<!-- TIRUVALLUR -->
+<div id="tiruvallur" class="section">
+<h2>Tiruvallur</h2>
+<div class="card" onclick="go('The Mayflower Tiruvallur')">The Mayflower ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('Oyepai Tiruvallur')">Oyepai ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('Nithya Amirtham Tiruvallur')">Nithya Amirtham ⭐⭐⭐⭐</div>
+</div>
+
+<!-- TIRUVANNAMALAI -->
+<div id="tiruvannamalai" class="section">
+<h2>Tiruvannamalai</h2>
+<div class="card" onclick="go('The Dreaming Tree Restaurant Tiruvannamalai')">The Dreaming Tree Restaurant ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('Hotel Ananda Ramana Tiruvannamalai')">Hotel Ananda Ramana ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('Rudraksh Vegetarian Restaurant Tiruvannamalai')">Rudraksh Vegetarian Restaurant ⭐⭐⭐⭐</div>
+</div>
+
+<!-- TIRUVARUR -->
+<div id="tiruvarur" class="section">
+<h2>Tiruvarur</h2>
+<div class="card" onclick="go('Bagavathi Mess Tiruvarur')">Bagavathi Mess ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('S S Crunch Restaurant Tiruvarur')">S S Crunch Restaurant ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('Feast Restaurant Tiruvarur')">Feast Restaurant ⭐⭐⭐⭐</div>
+</div>
+
+<!-- VELLORE -->
+<div id="vellore" class="section">
+<h2>Vellore</h2>
+<div class="card" onclick="go('Kailash Parbat Vellore')">Kailash Parbat ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('Alankars Virundhu Vellore')">Alankar's Virundhu ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('Zaitoon Restaurant Vellore')">Zaitoon Restaurant ⭐⭐⭐⭐</div>
+</div>
+
+<!-- VILLUPPURAM -->
+<div id="villuppuram" class="section">
+<h2>Villuppuram</h2>
+<div class="card" onclick="go('Nikaa Briyani Villuppuram')">Nikaa Briyani ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('Velan Mess Villuppuram')">Velan Mess ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('Dindigul Thalappakatti Restaurant Villuppuram')">Dindigul Thalappakatti Restaurant ⭐⭐⭐⭐</div>
+</div>
+
+<!-- VIRUDHUNAGAR -->
+<div id="virudhunagar" class="section">
+<h2>Virudhunagar</h2>
+<div class="card" onclick="go('Buhari Hotel Virudhunagar')">Buhari Hotel ⭐⭐⭐⭐</div>
+<div class="card" onclick="go('Virudhunagar Ayyanar Mess Virudhunagar')">Virudhunagar Ayyanar Mess ⭐⭐⭐⭐⭐</div>
+<div class="card" onclick="go('The Mayflower Virudhunagar')">The Mayflower ⭐⭐⭐⭐</div>
+</div>
+
+
+
+</div>
+
+<script>
+function go(res){
+  // 🔥 FIX: always clean value
+  const clean = res.trim();
+  window.location.href = "details.html?res=" + encodeURIComponent(clean);
+}
+</script>
+
+</body>
+</html>

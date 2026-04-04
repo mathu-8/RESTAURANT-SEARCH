@@ -1,0 +1,930 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>More Details</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: url('https://res.cloudinary.com/jerrick/image/upload/d_642250b563292b35f27461a7.png,f_jpg,fl_progressive,q_auto,w_1024/6405bd4a5d4221001d8a304d.jpg') no-repeat center/cover;
+    color: white;
+    text-align: center;
+}
+
+.overlay {
+    background: rgba(0,0,0,0.75);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.card {
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(8px);
+    padding:15px;
+    margin:10px auto;
+    width:300px;
+    border-radius:12px;
+}
+
+iframe {
+    width: 100%;
+    height: 220px;
+    border: none;
+    border-radius: 10px;
+}
+
+button {
+    padding:10px 20px;
+    margin:10px;
+    border:none;
+    border-radius:8px;
+    background:#ff9800;
+    color:white;
+    cursor:pointer;
+    font-size:16px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="overlay">
+
+<h1 id="title">Restaurant</h1>
+
+<div class="card">
+<h2>📍 Location</h2>
+<iframe id="map"></iframe>
+</div>
+
+<div class="card">
+<h2>📞 Contact</h2>
+<p id="phone"></p>
+</div>
+
+<div class="card">
+<h2>⏰ Timings</h2>
+<p id="time"></p>
+</div>
+
+<button onclick="history.back()">⬅ Back</button>
+
+<script>
+
+// ✅ FULL MORE DETAILS DATA (same pattern)
+
+const moreData = {
+
+"Ariyalur Mess": {
+name:"Ariyalur Mess",
+phone:"+91 90000 11111",
+time:"7:00 AM - 10:00 PM",
+map:"https://www.weather-forecast.com/locationmaps/Ariyalur.10.gif"
+},
+
+"Hotel Annapoorna Ariyalur": {
+name:"Hotel Annapoorna",
+phone:"+91 90000 11112",
+time:"7:00 AM - 10:00 PM",
+map:"https://www.weather-forecast.com/locationmaps/Ariyalur.12.gif"
+},
+
+"New Arya Bhavan Ariyalur": {
+name:"New Arya Bhavan",
+phone:"+91 90000 11113",
+time:"7:00 AM - 10:00 PM",
+map:"https://www.weather-forecast.com/locationmaps/Ariyalur.12.gif"
+},
+
+"Sangeetha Veg Chengalpattu": {
+name:"Sangeetha Veg",
+phone:"+91 90000 11114",
+time:"6:30 AM - 10:30 PM",
+map:"https://www.weather-forecast.com/locationmaps/Chengalpattu.10.gif"
+},
+
+"Hotel Crescent Chengalpattu": {
+name:"Hotel Crescent",
+phone:"+91 90000 11115",
+time:"11:00 AM - 11:00 PM",
+map:"https://www.weather-forecast.com/locationmaps/Chengalpattu.10.gif"
+},
+
+"Anjappar Chengalpattu": {
+name:"Anjappar",
+phone:"+91 90000 11116",
+time:"11:00 AM - 11:00 PM",
+map:"https://www.weather-forecast.com/locationmaps/Chengalpattu.10.gif"
+},
+
+"Anjappar Chennai": {
+name:"Anjappar Chettinad",
+phone:"+91 90000 11117",
+time:"11:00 AM - 11:00 PM",
+map:"https://www.allindiatravelinfo.com/india-travel-destinations/images/destinations/chennai-map.jpg"
+},
+
+"Murugan Idli Chennai": {
+name:"Murugan Idli Shop",
+phone:"+91 90000 11118",
+time:"6:00 AM - 11:00 PM",
+map:"https://www.allindiatravelinfo.com/india-travel-destinations/images/destinations/chennai-map.jpg"
+},
+
+"SS Hyderabad Biryani Chennai": {
+name:"SS Hyderabad Biryani",
+phone:"+91 90000 11119",
+time:"11:00 AM - 11:30 PM",
+map:"https://www.allindiatravelinfo.com/india-travel-destinations/images/destinations/chennai-map.jpg"
+},
+
+"Junior Kuppanna Coimbatore": {
+name:"Junior Kuppanna",
+phone:"+91 90000 11120",
+time:"11:00 AM - 10:30 PM",
+map:"https://www.weather-forecast.com/locationmaps/Coimbatore.10.gif"
+},
+
+"Annapoorna Coimbatore": {
+name:"Annapoorna",
+phone:"+91 90000 11121",
+time:"6:00 AM - 10:30 PM",
+map:"https://www.weather-forecast.com/locationmaps/Coimbatore.10.gif"
+},
+
+"Haribhavanam Coimbatore": {
+name:"Haribhavanam",
+phone:"+91 90000 11122",
+time:"11:30 AM - 10:30 PM",
+map:"https://www.weather-forecast.com/locationmaps/Coimbatore.10.gif"
+},
+
+"Hotel Aishwarya Cuddalore": {
+name:"Hotel Aishwarya",
+phone:"+91 90000 11123",
+time:"7:00 AM - 10:00 PM",
+map:"https://sunrise-sunset.org/maps1x/in-cuddalore.png"
+},
+
+"Sree Annapoorna Cuddalore": {
+name:"Sree Annapoorna",
+phone:"+91 90000 11124",
+time:"7:00 AM - 10:00 PM",
+map:"https://sunrise-sunset.org/maps1x/in-cuddalore.png"
+},
+
+"New Krishna Bhavan Cuddalore": {
+name:"New Krishna Bhavan",
+phone:"+91 90000 11125",
+time:"7:00 AM - 10:00 PM",
+map:"https://sunrise-sunset.org/maps1x/in-cuddalore.png"
+},
+
+"Hotel Gowri Krishna Dharmapuri": {
+name:"Hotel Gowri Krishna",
+phone:"+91 90000 11126",
+time:"7:00 AM - 10:00 PM",
+map:"https://www.weather-forecast.com/locationmaps/Dharmapuri.10.gif"
+},
+
+"Saravana Bhavan Dharmapuri": {
+name:"Saravana Bhavan",
+phone:"+91 90000 11127",
+time:"6:00 AM - 11:00 PM",
+map:"https://www.weather-forecast.com/locationmaps/Dharmapuri.10.gif"
+},
+
+"A2B Dharmapuri": {
+name:"A2B",
+phone:"+91 90000 11128",
+time:"6:30 AM - 10:30 PM",
+map:"https://www.weather-forecast.com/locationmaps/Dharmapuri.10.gif"
+},
+
+"Thalappakatti Dindigul": {
+name:"Thalappakatti",
+phone:"+91 90000 11129",
+time:"11:00 AM - 11:00 PM",
+map:"https://www.weather-forecast.com/locationmaps/Dindigul.10.gif"
+},
+
+"Ponram Dindigul": {
+name:"Ponram Biryani",
+phone:"+91 90000 11130",
+time:"11:00 AM - 10:30 PM",
+map:"https://www.weather-forecast.com/locationmaps/Dindigul.10.gif"
+},
+
+"Sree Baalaaji Bhavan Dindigul": {
+name:"Sree Baalaaji Bhavan",
+phone:"+91 90000 11131",
+time:"7:00 AM - 10:00 PM",
+map:"https://www.weather-forecast.com/locationmaps/Dindigul.10.gif"
+},
+
+"Sakthi Mess Erode": {
+name:"Sakthi Mess",
+phone:"+91 90000 11132",
+time:"11:00 AM - 10:00 PM",
+map:"https://www.weather-forecast.com/locationmaps/Erode.8.gif"
+},
+
+"Annapoorna Erode": {
+name:"Annapoorna",
+phone:"+91 90000 11133",
+time:"6:00 AM - 10:30 PM",
+map:"https://www.weather-forecast.com/locationmaps/Erode.8.gif"
+},
+
+"Hotel Aishwarya Erode": {
+name:"Hotel Aishwarya",
+phone:"+91 90000 11134",
+time:"7:00 AM - 10:00 PM",
+map:"https://www.weather-forecast.com/locationmaps/Erode.8.gif"
+},
+
+"Sri Krishna Bhavan Kallakurichi": {
+name:"Sri Krishna Bhavan",
+phone:"+91 90000 11135",
+time:"7:00 AM - 10:00 PM",
+map:"https://www.weather-forecast.com/locationmaps/Kallakkurichchi.10.gif"
+},
+
+"Hotel Aryaas Kallakurichi": {
+name:"Hotel Aryaas",
+phone:"+91 90000 11136",
+time:"7:00 AM - 10:00 PM",
+map:"https://www.weather-forecast.com/locationmaps/Kallakkurichchi.10.gif"
+},
+
+"New Saravana Kallakurichi": {
+name:"New Saravana",
+phone:"+91 90000 11137",
+time:"7:00 AM - 10:00 PM",
+map:"https://www.weather-forecast.com/locationmaps/Kallakkurichchi.10.gif"
+},
+
+"Sri Saravana Bhavan Kancheepuram": {
+name:"Sri Saravana Bhavan",
+phone:"+91 90000 11138",
+time:"6:00 AM - 11:00 PM",
+map:"https://assets.indiaonline.in/cg/kancheepuram/City-Guide/kancheepuram_geography.jpg"
+},
+
+"Sangeetha Kancheepuram": {
+name:"Sangeetha",
+phone:"+91 90000 11139",
+time:"6:30 AM - 10:30 PM",
+map:"https://assets.indiaonline.in/cg/kancheepuram/City-Guide/kancheepuram_geography.jpg"
+},
+
+"Hotel Baboo Kancheepuram": {
+name:"Hotel Baboo",
+phone:"+91 90000 11140",
+time:"7:00 AM - 10:00 PM",
+map:"https://assets.indiaonline.in/cg/kancheepuram/City-Guide/kancheepuram_geography.jpg"
+},
+
+
+
+"Hotel Hemala Karur": {
+name:"Hotel Hemala",
+phone:"+91 90000 11141",
+time:"11:00 AM - 10:30 PM",
+map:"https://www.weather-forecast.com/stnlocationmaps/Karur.8.gif"
+},
+
+"Sree Annapoorna Karur": {
+name:"Sree Annapoorna",
+phone:"+91 90000 11142",
+time:"7:00 AM - 10:00 PM",
+map:"https://www.weather-forecast.com/stnlocationmaps/Karur.8.gif"
+},
+
+"A2B Karur": {
+name:"A2B",
+phone:"+91 90000 11143",
+time:"6:30 AM - 10:30 PM",
+map:"https://www.weather-forecast.com/stnlocationmaps/Karur.8.gif"
+},
+
+"Hotel Sree Saravana Krishnagiri": {
+name:"Hotel Sree Saravana",
+phone:"+91 90000 11144",
+time:"7:00 AM - 10:00 PM",
+map:"https://www.weather-forecast.com/locationmaps/Krishnagiri.10.gif"
+},
+
+"A2B Krishnagiri": {
+name:"A2B",
+phone:"+91 90000 11145",
+time:"6:30 AM - 10:30 PM",
+map:"https://www.weather-forecast.com/locationmaps/Krishnagiri.10.gif"
+},
+
+"Hotel Gowri Krishnagiri": {
+name:"Hotel Gowri",
+phone:"+91 90000 11146",
+time:"7:00 AM - 10:00 PM",
+map:"https://www.weather-forecast.com/locationmaps/Krishnagiri.10.gif"
+},
+
+"The Curry Kaniya kumari": {
+name:"The Curry Kanyakumari",
+phone:"+91 88254 66315",
+time:"1:00 PM - 10:00 PM",
+map:"https://www.weather-forecast.com/locationmaps/Kanniyakumari.10.gif"
+},
+
+"Zam Zam Kaniya kumari": {
+name:"Zam Zam Kanyakumari",
+phone:"+91 75986 65585",
+time:"11:00 AM - 11:00 PM",
+map:"https://www.weather-forecast.com/locationmaps/Kanniyakumari.10.gif"
+},
+
+"Sea view Kanya kumari": {
+name:"Sea view Kanyakumari",
+phone:"+91 76959 59109",
+time:"7:00 AM - 10:30 PM",
+map:"https://www.weather-forecast.com/locationmaps/Kanniyakumari.10.gif"
+},
+
+"Melting pot Madurai": {
+name:"Melting Pot Madurai",
+phone:"0452 455 1555",
+time:"7:00 AM - 11:00 PM",
+map:"https://www.weather-forecast.com/locationmaps/Madurai.8.gif"
+},
+
+"The Munchies Madurai": {
+name:"The Munchies Madurai",
+phone:"+91 93638 67454",
+time:"12:00 PM - 10:00 PM",
+map:"https://www.weather-forecast.com/locationmaps/Madurai.8.gif"
+},
+
+"Amma Mess Madurai": {
+name:"Amma Mess Madurai",
+phone:"+91 98421 45900",
+time:"11:00 AM - 5:00 PM, 7:00 PM - 10:00 PM",
+map:"https://www.weather-forecast.com/locationmaps/Madurai.8.gif"
+},
+
+"Vasan's parambariya Mayiladuthurai": {
+name: "Vasan's parambariya Mayiladuthurai",
+phone: "+91 94432 12345",
+time: "7:00 AM - 10:30 PM",
+map: "https://www.mapsofindia.com/maps/tamilnadu/districts/mayiladuthurai-district-map.jpg"
+},
+
+"Annamithra Mayiladuthurai": {
+name:"Annamithra Mayiladuthurai",
+phone:"+91 90922 26069",
+time:"7:00 AM - 10:00 PM",
+map:"https://www.mapsofindia.com/maps/tamilnadu/districts/mayiladuthurai-district-map.jpg"
+},
+
+"Grand Inn Mayiladuthurai": {
+name: "Grand Inn Mayiladuthurai",
+phone: "+91 98765 43210",
+time: "6:30 AM - 11:00 PM",
+map: "https://www.mapsofindia.com/maps/tamilnadu/districts/mayiladuthurai-district-map.jpg"
+},
+
+"Star Nagapattinam": {
+name: "Star Nagapattinam",
+phone: "+91 90000 00001",
+time: "10:00 AM - 10:30 PM",
+map: "https://www.weather-forecast.com/locationmaps/Nagapattinam.8.gif"
+},
+
+"Grand chettinadu Nagapattinam": {
+name: "Grand chettinadu Nagapattinam",
+phone: "+91 90000 00002",
+time: "11:00 AM - 11:00 PM",
+map: "https://www.weather-forecast.com/locationmaps/Nagapattinam.8.gif"
+},
+
+"Anifa briyani Nagapattinam": {
+name: "Anifa briyani Nagapattinam",
+phone: "+91 90000 00003",
+time: "9:00 AM - 10:00 PM",
+map: "https://www.weather-forecast.com/locationmaps/Nagapattinam.8.gif"
+},
+
+"Nilgiri express Nilgiris": {
+name:"Nilgiri express Nilgiris",
+phone:"+91 94990 15202",
+time:"7:30 AM - 10:30 PM",
+map:"https://www.weather-forecast.com/locationmaps/Nilgiri.10.gif"
+},
+
+"A2A Nilgiris": {
+name: "A2A Nilgiris",
+phone: "+91 94430 12345",
+time: "7:00 AM - 10:30 PM",
+map: "https://www.weather-forecast.com/locationmaps/Nilgiri.10.gif"
+},
+
+"Blomming Garden Cafe Nilgiris": {
+name: "Blooming Garden Cafe Ooty",
+phone: "+91 97865 43210",
+time: "9:00 AM - 9:30 PM",
+map: "https://www.weather-forecast.com/locationmaps/Nilgiri.10.gif"
+},
+
+"Tempt multicuisine restaurant Namakkal": {
+name: "Tempt multicuisine restaurant Namakkal",
+phone: "+91 98765 43210",
+time: "11:00 AM - 11:00 PM",
+map: "https://www.weather-forecast.com/locationmaps/Namakkal.10.gif"
+},
+
+"Barbe queen restaurant Namakkal": {
+name: "Barbe queen restaurant Namakkal",
+phone: "+91 91234 56789",
+time: "12:00 PM - 11:30 PM",
+map: "https://www.weather-forecast.com/locationmaps/Namakkal.10.gif"
+},
+
+"Table tree family restaurant Namakkal": {
+name: "Table tree family restaurant Namakkal",
+phone: "+91 90123 45678",
+time: "10:30 AM - 10:30 PM",
+map: "https://www.weather-forecast.com/locationmaps/Namakkal.10.gif"
+},
+
+"Aswins restaurant Perambalur": {
+name:"Aswins restaurant Perambalur",
+phone:"+91 95857 66000",
+time:"6:00 AM - 10:30 PM",
+map:"https://www.weather-forecast.com/locationmaps/Perambalur.8.gif"
+},
+
+"Ishtaa restaurant Perambalur": {
+name: "Ishtaa restaurant Perambalur",
+phone: "+91 97897 12345",
+time: "10:00 AM - 10:00 PM",
+map: "https://www.weather-forecast.com/locationmaps/Perambalur.8.gif"
+},
+
+"Kooraikadai jayaraman mess Perambalur": {
+name: "Kooraikadai jayaraman mess Perambalur",
+phone: "+91 94432 56789",
+time: "6:00 AM - 3:00 PM",
+map: "https://www.weather-forecast.com/locationmaps/Perambalur.8.gif"
+},
+
+"Koodoo family Pudukkottai": {
+name:"Koodoo family Pudukkottai",
+phone:"+91 1234567890",
+time:"9:00 AM - 11:00 PM",
+map:"https://www.weather-forecast.com/locationmaps/Pudukkottai.10.gif"
+},
+
+"Hayatti Briyani Pudukkottai": {
+name: "Hayatti Briyani Pudukkottai",
+phone: "+91 98765 43210",
+time: "11:00 AM - 11:00 PM",
+map: "https://www.weather-forecast.com/locationmaps/Pudukkottai.10.gif"
+},
+
+"Palaniappa mess Pudukkottai": {
+name: "Palaniappa mess Pudukkottai",
+phone: "+91 93630 12345",
+time: "7:00 AM - 3:00 PM",
+map: "https://www.weather-forecast.com/locationmaps/Pudukkottai.10.gif"
+},
+
+"Jade room veg restaurant Ramanathapuram": {
+name:"Jade room veg restaurant Ramanathapuram",
+phone:"+91 94899 25194",
+time:"8:00 AM - 10:30 PM",
+map:"https://www.weather-forecast.com/locationmaps/Ramanathapuram.10.gif"
+},
+
+"Zaitoon restaurant Ramanathapuram": {
+name: "Zaitoon restaurant Ramanathapuram",
+phone: "+91 44 4200 1234",
+time: "11:30 AM - 11:30 PM",
+map: "https://www.weather-forecast.com/locationmaps/Ramanathapuram.10.gif"
+},
+
+"Bheemas nalabagam Ramanathapuram": {
+name: "Bheemas Nalabagam Ramanathapuram",
+phone: "+91 44 2532 5678",
+time: "7:00 AM - 10:30 PM",
+map: "https://www.weather-forecast.com/locationmaps/Ramanathapuram.10.gif"
+},
+
+"Ranipet Zamindars Family": {
+name:"Ranipet Zamindars Family",
+phone:"+91 91083 77745",
+time:"11:45 AM - 10:30 PM",
+map:"https://media.assettype.com/dt-next%2Fimport%2Fimported%2Fimport%2FArticles%2F2019%2FNov%2F201911010357564920_Ranipet-Tirupattur-await-govt-nod-for-their-birth-as_SECVPF.gif?w=480&auto=format%2Ccompress&fit=max"
+},
+
+"Divine Cafe Ranipet": {
+name:"Divine Cafe Ranipet",
+phone:"Not Available",
+time:"Open 24 Hours",
+map:"https://media.assettype.com/dt-next%2Fimport%2Fimported%2Fimport%2FArticles%2F2019%2FNov%2F201911010357564920_Ranipet-Tirupattur-await-govt-nod-for-their-birth-as_SECVPF.gif?w=480&auto=format%2Ccompress&fit=max"
+},
+
+"Maaran's Cafe Ranipet": {
+name:"Maaran's Cafe Ranipet",
+phone:"+91 74490 70777",
+time:"11:00 AM - 10:00 PM",
+map:"https://media.assettype.com/dt-next%2Fimport%2Fimported%2Fimport%2FArticles%2F2019%2FNov%2F201911010357564920_Ranipet-Tirupattur-await-govt-nod-for-their-birth-as_SECVPF.gif?w=480&auto=format%2Ccompress&fit=max"
+},
+
+"Thamboora Restaurant Salem": {
+name:"Thamboora Restaurant Salem",
+phone:"+91 90953 44777",
+time:"6:30 AM - 10:30 PM",
+map:"https://www.weather-forecast.com/locationmaps/Salem.10.gif"
+},
+
+"Submarine Restaurant Salem": {
+name:"Submarine Restaurant Salem",
+phone:"+91 96884 31210",
+time:"6:00 AM - 10:00 PM",
+map:"https://www.weather-forecast.com/locationmaps/Salem.10.gif"
+},
+
+"Nikka Biryani Salem": {
+name:"Nikka Biryani Salem",
+phone:"+91 90876 86699",
+time:"11:00 AM - 11:00 PM",
+map:"https://www.weather-forecast.com/locationmaps/Salem.10.gif"
+},
+
+"Lala Restaurant Sivagangi": {
+name:"Lala Restaurant Sivagangi",
+phone:"+91 90000 21001",
+time:"7:00 AM - 10:00 PM",
+map:"https://www.weather-forecast.com/locationmaps/Sivaganga.10.gif"
+},
+
+"Velan Restaurant Sivagangi": {
+name:"Velan Restaurant Sivagangi",
+phone:"+91 90000 21002",
+time:"7:00 AM - 10:00 PM",
+map:"https://www.weather-forecast.com/locationmaps/Sivaganga.10.gif"
+},
+
+"Malairam Restaurant Sivagangi": {
+name:"Malairam Restaurant Sivagangi",
+phone:"+91 90000 21003",
+time:"6:30 AM - 10:00 PM",
+map:"https://www.weather-forecast.com/locationmaps/Sivaganga.10.gif"
+},
+
+"Kalari Kari Virundhu Tenkasi": {
+name:"Kalari Kari Virundhu Tenkasi",
+phone:"+91 90000 21004",
+time:"11:00 AM - 10:30 PM",
+map:"https://www.weather-forecast.com/locationmaps/Tenkasi.10.gif"
+},
+
+"Drizzle Restaurant Tenkasi": {
+name:"Drizzle Restaurant Tenkasi",
+phone:"+91 90000 21005",
+time:"11:00 AM - 10:30 PM",
+map:"https://www.weather-forecast.com/locationmaps/Tenkasi.10.gif"
+},
+
+"Food Hub Tenkasi": {
+name:"Food Hub Tenkasi",
+phone:"+91 90000 21006",
+time:"10:00 AM - 10:00 PM",
+map:"https://www.weather-forecast.com/locationmaps/Tenkasi.10.gif"
+},
+
+"Sree Ariya Bhavan Thanjavur": {
+name:"Sree Ariya Bhavan Thanjavur",
+phone:"+91 90000 21007",
+time:"6:30 AM - 10:30 PM",
+map:"https://www.weather-forecast.com/locationmaps/Thanjavur.10.gif"
+},
+
+"Barbequeen Restaurant Thanjavur": {
+name:"Barbequeen Restaurant Thanjavur",
+phone:"+91 90000 21008",
+time:"11:00 AM - 11:00 PM",
+map:"https://www.weather-forecast.com/locationmaps/Thanjavur.10.gif"
+},
+
+"Keso Cafe Thanjavur": {
+name:"Keso Cafe Thanjavur",
+phone:"+91 90000 21009",
+time:"10:00 AM - 10:00 PM",
+map:"https://www.weather-forecast.com/locationmaps/Thanjavur.10.gif"
+},
+
+"Military Hotel and Cafe Theni": {
+name:"Military Hotel and Cafe Theni",
+phone:"+91 90000 21010",
+time:"11:00 AM - 10:30 PM",
+map:"https://www.weather-forecast.com/locationmaps/Theni.10.gif"
+},
+
+"Maruthi Restaurant Theni": {
+name:"Maruthi Restaurant Theni",
+phone:"+91 90000 21011",
+time:"7:00 AM - 10:00 PM",
+map:"https://www.weather-forecast.com/locationmaps/Theni.10.gif"
+},
+
+"Ridha Pizzeria Theni": {
+name:"Ridha Pizzeria Theni",
+phone:"+91 90000 21012",
+time:"11:00 AM - 10:30 PM",
+map:"https://www.weather-forecast.com/locationmaps/Theni.10.gif"
+},
+
+
+"SDR Restaurant and Cafe Thoothukudi": {
+name:"SDR Restaurant and Cafe Thoothukudi",
+phone:"+91 90000 21013",
+time:"11:00 AM - 10:30 PM",
+map:"https://www.weather-forecast.com/locationmaps/Tuticorin.10.gif"
+},
+
+"Arabian Lulu Restaurant Thoothukudi": {
+name:"Arabian Lulu Restaurant Thoothukudi",
+phone:"+91 90000 21014",
+time:"11:00 AM - 11:00 PM",
+map:"https://www.weather-forecast.com/locationmaps/Tuticorin.10.gif"
+},
+
+"AK&Sons Restaurant Thoothukudi": {
+name:"AK&Sons Restaurant Thoothukudi",
+phone:"+91 90000 21015",
+time:"7:00 AM - 10:00 PM",
+map:"https://www.weather-forecast.com/locationmaps/Tuticorin.10.gif"
+},
+
+"Shri Sangeethas Tiruchirappalli": {
+name:"Shri Sangeethas Tiruchirappalli",
+phone:"+91 90000 21016",
+time:"6:00 AM - 10:30 PM",
+map:"https://www.weather-forecast.com/locationmaps/Tiruchirapalli.8.gif"
+},
+
+"Appathaa Samayall Tiruchirappalli": {
+name:"Appathaa Samayall Tiruchirappalli",
+phone:"+91 90000 21017",
+time:"11:00 AM - 10:30 PM",
+map:"https://www.weather-forecast.com/locationmaps/Tiruchirapalli.8.gif"
+},
+
+"The Roy Fine Dine Tiruchirappalli": {
+name:"The Roy Fine Dine Tiruchirappalli",
+phone:"+91 90000 21018",
+time:"11:00 AM - 11:00 PM",
+map:"https://www.weather-forecast.com/locationmaps/Tiruchirapalli.8.gif"
+},
+
+"D Parkz Tirunelveli": {
+name:"D Parkz Tirunelveli",
+phone:"+91 90000 21019",
+time:"11:00 AM - 10:30 PM",
+map:"https://www.weather-forecast.com/locationmaps/Tirunelveli.10.gif"
+},
+
+"Udhaya Vilas Tirunelveli": {
+name:"Udhaya Vilas Tirunelveli",
+phone:"+91 90000 21020",
+time:"6:30 AM - 10:00 PM",
+map:"https://www.weather-forecast.com/locationmaps/Tirunelveli.10.gif"
+},
+
+"Naadody Restaurant Tirunelveli": {
+name:"Naadody Restaurant Tirunelveli",
+phone:"+91 90000 21021",
+time:"11:00 AM - 10:30 PM",
+map:"https://www.weather-forecast.com/locationmaps/Tirunelveli.10.gif"
+},
+
+"Ahmedia Restaurant Tirupathur": {
+name:"Ahmedia Restaurant Tirupathur",
+phone:"+91 90000 21022",
+time:"11:00 AM - 10:30 PM",
+map:"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEid8Ar5VL4ouwDSdVGqMELhiwJ3xfEkK5KiMFEn4z1YEHAgoJhTW4b9bgElXTAWtcC-4ly7iLjIlLNcDgNvXYT_julU7TkzMdVl-8_k75uoY2Y8yEhUruJ1PlWJQOuzawm7501BdgHf_EU/s1600/tirupattur.png"
+},
+
+"Yaazh Chettinadu Mess Tirupathur": {
+name:"Yaazh Chettinadu Mess Tirupathur",
+phone:"+91 90000 21023",
+time:"11:00 AM - 10:00 PM",
+map:"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEid8Ar5VL4ouwDSdVGqMELhiwJ3xfEkK5KiMFEn4z1YEHAgoJhTW4b9bgElXTAWtcC-4ly7iLjIlLNcDgNvXYT_julU7TkzMdVl-8_k75uoY2Y8yEhUruJ1PlWJQOuzawm7501BdgHf_EU/s1600/tirupattur.png"
+},
+
+"The Aroma Multi Cuisine Restaurant Tirupathur": {
+name:"The Aroma Multi Cuisine Restaurant Tirupathur",
+phone:"+91 90000 21024",
+time:"10:30 AM - 10:30 PM",
+map:"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEid8Ar5VL4ouwDSdVGqMELhiwJ3xfEkK5KiMFEn4z1YEHAgoJhTW4b9bgElXTAWtcC-4ly7iLjIlLNcDgNvXYT_julU7TkzMdVl-8_k75uoY2Y8yEhUruJ1PlWJQOuzawm7501BdgHf_EU/s1600/tirupattur.png"
+},
+
+"Kailash Parbat Tiruppur": {
+name:"Kailash Parbat Tiruppur",
+phone:"+91 90000 21025",
+time:"10:00 AM - 10:30 PM",
+map:"https://www.weather-forecast.com/locationmaps/Tiruppur.10.gif"
+},
+
+"Grill Park Tiruppur": {
+name:"Grill Park Tiruppur",
+phone:"+91 90000 21026",
+time:"11:00 AM - 11:00 PM",
+map:"https://www.weather-forecast.com/locationmaps/Tiruppur.10.gif"
+},
+
+"One Dine Tiruppur": {
+name:"One Dine Tiruppur",
+phone:"+91 90000 21027",
+time:"11:00 AM - 10:30 PM",
+map:"https://www.weather-forecast.com/locationmaps/Tiruppur.10.gif"
+},
+
+"The Mayflower Tiruvallur": {
+name:"The Mayflower Tiruvallur",
+phone:"+91 90000 21028",
+time:"11:00 AM - 10:30 PM",
+map:"https://www.weather-forecast.com/locationmaps/Tiruvallur.10.gif"
+},
+
+"Oyepai Tiruvallur": {
+name:"Oyepai Tiruvallur",
+phone:"+91 90000 21029",
+time:"10:00 AM - 10:00 PM",
+map:"https://www.weather-forecast.com/locationmaps/Tiruvallur.10.gif"
+},
+
+"Nithya Amirtham Tiruvallur": {
+name:"Nithya Amirtham Tiruvallur",
+phone:"+91 90000 21030",
+time:"6:00 AM - 10:00 PM",
+map:"https://www.weather-forecast.com/locationmaps/Tiruvallur.10.gif"
+},
+
+"The Dreaming Tree Restaurant Tiruvannamalai": {
+name:"The Dreaming Tree Restaurant Tiruvannamalai",
+phone:"+91 90000 21031",
+time:"10:00 AM - 10:30 PM",
+map:"https://www.weather-forecast.com/locationmaps/Thiruvannaamalai.8.gif"
+},
+
+"Hotel Ananda Ramana Tiruvannamalai": {
+name:"Hotel Ananda Ramana Tiruvannamalai",
+phone:"+91 90000 21032",
+time:"6:30 AM - 10:00 PM",
+map:"https://www.weather-forecast.com/locationmaps/Thiruvannaamalai.8.gif"
+},
+
+"Rudraksh Vegetarian Restaurant Tiruvannamalai": {
+name:"Rudraksh Vegetarian Restaurant Tiruvannamalai",
+phone:"+91 90000 21033",
+time:"7:00 AM - 10:00 PM",
+map:"https://www.weather-forecast.com/locationmaps/Thiruvannaamalai.8.gif"
+},
+
+"Bagavathi Mess Tiruvarur": {
+name:"Bagavathi Mess Tiruvarur",
+phone:"+91 90000 21034",
+time:"7:00 AM - 10:00 PM",
+map:"https://www.weather-forecast.com/locationmaps/Tiruvarur.10.gif"
+},
+
+"S S Crunch Restaurant Tiruvarur": {
+name:"S S Crunch Restaurant Tiruvarur",
+phone:"+91 90000 21035",
+time:"10:30 AM - 10:00 PM",
+map:"https://www.weather-forecast.com/locationmaps/Tiruvarur.10.gif"
+},
+
+"Feast Restaurant Tiruvarur": {
+name:"Feast Restaurant Tiruvarur",
+phone:"+91 90000 21036",
+time:"11:00 AM - 10:30 PM",
+map:"https://www.weather-forecast.com/locationmaps/Tiruvarur.10.gif"
+},
+
+"Kailash Parbat Vellore": {
+name:"Kailash Parbat Vellore",
+phone:"+91 90000 21037",
+time:"10:00 AM - 10:30 PM",
+map:"https://www.weather-forecast.com/locationmaps/Vellore.10.gif"
+},
+
+"Alankars Virundhu Vellore": {
+name:"Alankars Virundhu Vellore",
+phone:"+91 90000 21038",
+time:"11:00 AM - 10:00 PM",
+map:"https://www.weather-forecast.com/locationmaps/Vellore.10.gif"
+},
+"Zaitoon Restaurant Vellore": {
+name:"Zaitoon Restaurant Vellore",
+phone:"+91 90000 21039",
+time:"11:00 AM - 11:00 PM",
+map:"https://www.weather-forecast.com/locationmaps/Vellore.10.gif"
+},
+
+"Nikaa Briyani Villuppuram": {
+name:"Nikaa Briyani Villuppuram",
+phone:"+91 90000 21040",
+time:"11:00 AM - 10:30 PM",
+map:"https://www.weather-forecast.com/locationmaps/Viluppuram.10.gif"
+},
+"Velan Mess Villuppuram": {
+name:"Velan Mess Villuppuram",
+phone:"+91 90000 21041",
+time:"11:00 AM - 10:00 PM",
+map:"https://www.weather-forecast.com/locationmaps/Viluppuram.10.gif"
+},
+"Dindigul Thalappakatti Restaurant Villuppuram": {
+name:"Dindigul Thalappakatti Restaurant Villuppuram",
+phone:"+91 90000 21042",
+time:"11:00 AM - 11:00 PM",
+map:"https://www.weather-forecast.com/locationmaps/Viluppuram.10.gif"
+},
+
+"Buhari Hotel Virudhunagar": {
+name:"Buhari Hotel Virudhunagar",
+phone:"+91 90000 21043",
+time:"11:00 AM - 10:30 PM",
+map:"https://www.weather-forecast.com/locationmaps/Virudhunagar.10.gif"
+},
+"Virudhunagar Ayyanar Mess Virudhunagar": {
+name:"Virudhunagar Ayyanar Mess Virudhunagar",
+phone:"+91 90000 21044",
+time:"11:00 AM - 10:00 PM",
+map:"https://www.weather-forecast.com/locationmaps/Virudhunagar.10.gif"
+},
+
+"The Mayflower Virudhunagar": {
+name:"The Mayflower Virudhunagar",
+phone:"+91 90000 21045",
+time:"11:00 AM - 10:30 PM",
+map:"https://www.weather-forecast.com/locationmaps/Virudhunagar.10.gif"
+}
+
+};
+
+// ✅ GET PARAM
+function getParam(name){
+  const url = window.location.search.substring(1);
+  const vars = url.split("&");
+  for(let i=0;i<vars.length;i++){
+    const pair = vars[i].split("=");
+    if(pair[0] == name){
+      return decodeURIComponent(pair[1]);
+    }
+  }
+  return null;
+}
+
+let res = getParam("res");
+
+// extra safety
+if(res){
+  res = decodeURIComponent(res.trim());
+}
+
+let r = moreData[res];
+
+// ignore case safety
+if(!r && res){
+  const key = Object.keys(moreData).find(k => k.toLowerCase() === res.toLowerCase());
+  if(key) r = moreData[key];
+}
+
+if(r){
+  document.getElementById("title").innerText = r.name;
+  document.getElementById("phone").innerText = r.phone;
+  document.getElementById("time").innerText = r.time;
+  document.getElementById("map").src = r.map;
+}else{
+  document.body.innerHTML = `
+    <div class="overlay">
+      <h2>❌ Data Not Found</h2>
+      <p>Please check restaurant name in restaurant1.html</p>
+      <button onclick="history.back()">⬅ Back</button>
+    </div>
+  `;
+}
+
+function goThank(){
+  window.location.href = "Thank You.html";
+}
+</script>
+
+<button onclick="goThank()">✅ Confirm / Visit Restaurant</button>
+</div> 
+</body>
+</html>
